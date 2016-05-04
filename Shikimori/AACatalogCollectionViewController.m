@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UIImage *placeholder;
 @property (assign, nonatomic) BOOL loadingCell;
 @property (strong, nonatomic) UIButton *titleButton;
+@property (strong, nonatomic) UIVisualEffectView *blurEffectView;
 
 @end
 
@@ -30,6 +31,12 @@ static NSInteger pageInRequest = 0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    self.blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
+    [self.blurEffectView setFrame:self.view.frame];
+    [self.view addSubview:self.blurEffectView];
     
     pageInRequest = 0;
     self.animeArray = [NSMutableArray array];
@@ -66,7 +73,7 @@ static NSInteger pageInRequest = 0;
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
     self.collectionView.backgroundView = tempImageView;
     
-    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+   // UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     UIVisualEffectView *backgroundBlurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
     backgroundBlurEffectView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
     [backgroundBlurEffectView setFrame:self.collectionView.frame];
@@ -148,12 +155,6 @@ static NSInteger pageInRequest = 0;
 
 - (void) getAnimeListFromServer {
     
-    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
-    [blurEffectView setFrame:self.view.frame];
-    [self.view addSubview:blurEffectView];
-    
     [SVProgressHUD show];
     
     [[AAServerManager shareManager] getAnimeList:pageInRequest = pageInRequest + 1
@@ -171,13 +172,13 @@ static NSInteger pageInRequest = 0;
                                            self.loadingCell = NO;
                                            [self.collectionView reloadData];
                                            [SVProgressHUD dismiss];
-                                           [blurEffectView removeFromSuperview];
+                                           [self.blurEffectView removeFromSuperview];
                                            
                                        }
                                        onFailure:^(NSError *error, NSInteger statusCode) {
                                            NSLog(@"error = %@, code = %ld", [error localizedDescription], (long)statusCode);
                                            [SVProgressHUD dismiss];
-                                           [blurEffectView removeFromSuperview];
+                                           [self.blurEffectView removeFromSuperview];
                                        }];
 }
 

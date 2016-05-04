@@ -62,7 +62,7 @@
                                               }
                                               for (AAAnimeSimilar *anime in self.animeSimilarArray){
                                                   [[AAServerManager shareManager] getAnimeProfile:anime.animeID
-                                                                                        onSuccess:^(AAAnimeProfile *animeDateAndGenres) { // переделать, и в релейтед тоже.
+                                                                                        onSuccess:^(AAAnimeProfile *animeDateAndGenres) {
                                                                                             [self.animeSimilarProfileArray addObject:animeDateAndGenres];
                                                                                             
                                                                                             [self.tableView reloadData];
