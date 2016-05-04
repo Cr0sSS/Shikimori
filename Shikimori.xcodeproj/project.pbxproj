@@ -57,10 +57,10 @@
 		8445119B1CB92DFD00B73A90 /* AAAnimeSimilarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8445119A1CB92DFD00B73A90 /* AAAnimeSimilarTableViewCell.m */; };
 		8445119E1CBBE09B00B73A90 /* AAAnimeProfileInformationViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8445119D1CBBE09B00B73A90 /* AAAnimeProfileInformationViewCell.m */; };
 		847852741CD499DF00DBCDD3 /* Shikimori 2016-04-30 12:25.06.326.xcappdata in Resources */ = {isa = PBXBuildFile; fileRef = 847852731CD499DF00DBCDD3 /* Shikimori 2016-04-30 12:25.06.326.xcappdata */; };
+		84D90EE91CDA4910009CA3C7 /* Anime.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D90EE61CDA4910009CA3C7 /* Anime.m */; };
+		84D90EEA1CDA4910009CA3C7 /* Anime+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D90EE81CDA4910009CA3C7 /* Anime+CoreDataProperties.m */; };
 		84E75F5E1CC588750033D3E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84E75F5C1CC588750033D3E6 /* Main.storyboard */; };
 		84E75F611CC588750033D3E6 /* AAAnimeSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E75F601CC588750033D3E6 /* AAAnimeSearchTableViewCell.m */; };
-		84E75F8A1CC63A070033D3E6 /* Anime+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E75F871CC63A070033D3E6 /* Anime+CoreDataProperties.m */; };
-		84E75F8B1CC63A070033D3E6 /* Anime.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E75F891CC63A070033D3E6 /* Anime.m */; };
 		84FAF6AA1CC392C400C036B6 /* AAAnimeSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FAF6A91CC392C400C036B6 /* AAAnimeSearchTableViewController.m */; };
 		84FAF6EA1CC4BA9600C036B6 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84FAF6E81CC4BA9600C036B6 /* CoreData.xcdatamodeld */; };
 		84FAF71C1CC529C600C036B6 /* AACoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FAF71B1CC529C600C036B6 /* AACoreDataManager.m */; };
@@ -166,13 +166,13 @@
 		8445119C1CBBE09B00B73A90 /* AAAnimeProfileInformationViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAAnimeProfileInformationViewCell.h; sourceTree = "<group>"; };
 		8445119D1CBBE09B00B73A90 /* AAAnimeProfileInformationViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAAnimeProfileInformationViewCell.m; sourceTree = "<group>"; };
 		847852731CD499DF00DBCDD3 /* Shikimori 2016-04-30 12:25.06.326.xcappdata */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "Shikimori 2016-04-30 12:25.06.326.xcappdata"; sourceTree = "<group>"; };
+		84D90EE51CDA4910009CA3C7 /* Anime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Anime.h; sourceTree = "<group>"; };
+		84D90EE61CDA4910009CA3C7 /* Anime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Anime.m; sourceTree = "<group>"; };
+		84D90EE71CDA4910009CA3C7 /* Anime+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Anime+CoreDataProperties.h"; sourceTree = "<group>"; };
+		84D90EE81CDA4910009CA3C7 /* Anime+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Anime+CoreDataProperties.m"; sourceTree = "<group>"; };
 		84E75F5D1CC588750033D3E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		84E75F5F1CC588750033D3E6 /* AAAnimeSearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAAnimeSearchTableViewCell.h; sourceTree = "<group>"; };
 		84E75F601CC588750033D3E6 /* AAAnimeSearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAAnimeSearchTableViewCell.m; sourceTree = "<group>"; };
-		84E75F861CC63A070033D3E6 /* Anime+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Anime+CoreDataProperties.h"; path = "../Anime+CoreDataProperties.h"; sourceTree = "<group>"; };
-		84E75F871CC63A070033D3E6 /* Anime+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Anime+CoreDataProperties.m"; path = "../Anime+CoreDataProperties.m"; sourceTree = "<group>"; };
-		84E75F881CC63A070033D3E6 /* Anime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Anime.h; path = ../Anime.h; sourceTree = "<group>"; };
-		84E75F891CC63A070033D3E6 /* Anime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Anime.m; path = ../Anime.m; sourceTree = "<group>"; };
 		84FAF6A81CC392C400C036B6 /* AAAnimeSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAAnimeSearchTableViewController.h; sourceTree = "<group>"; };
 		84FAF6A91CC392C400C036B6 /* AAAnimeSearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAAnimeSearchTableViewController.m; sourceTree = "<group>"; };
 		84FAF6E91CC4BA9600C036B6 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
@@ -474,10 +474,10 @@
 			children = (
 				84FAF71A1CC529C600C036B6 /* AACoreDataManager.h */,
 				84FAF71B1CC529C600C036B6 /* AACoreDataManager.m */,
-				84E75F861CC63A070033D3E6 /* Anime+CoreDataProperties.h */,
-				84E75F871CC63A070033D3E6 /* Anime+CoreDataProperties.m */,
-				84E75F881CC63A070033D3E6 /* Anime.h */,
-				84E75F891CC63A070033D3E6 /* Anime.m */,
+				84D90EE51CDA4910009CA3C7 /* Anime.h */,
+				84D90EE61CDA4910009CA3C7 /* Anime.m */,
+				84D90EE71CDA4910009CA3C7 /* Anime+CoreDataProperties.h */,
+				84D90EE81CDA4910009CA3C7 /* Anime+CoreDataProperties.m */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -606,7 +606,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84E75F8B1CC63A070033D3E6 /* Anime.m in Sources */,
 				842E30031CD8F3E70005E612 /* UIRefreshControl+AFNetworking.m in Sources */,
 				844511471CAC00DD00B73A90 /* AAAnimeProfile.m in Sources */,
 				842E2FD21CD8F38E0005E612 /* XPathQuery.m in Sources */,
@@ -640,6 +639,7 @@
 				844511951CB8E5C900B73A90 /* AAAnimeRelated.m in Sources */,
 				84FAF6AA1CC392C400C036B6 /* AAAnimeSearchTableViewController.m in Sources */,
 				844511441CAC006600B73A90 /* AAAnimeCatalog.m in Sources */,
+				84D90EEA1CDA4910009CA3C7 /* Anime+CoreDataProperties.m in Sources */,
 				842E30001CD8F3E70005E612 /* UIButton+AFNetworking.m in Sources */,
 				844511581CAC3A4D00B73A90 /* AAAnimeVideo.m in Sources */,
 				8445119E1CBBE09B00B73A90 /* AAAnimeProfileInformationViewCell.m in Sources */,
@@ -654,8 +654,8 @@
 				842E2FF71CD8F3E70005E612 /* AFNetworkReachabilityManager.m in Sources */,
 				8445114A1CAC06B800B73A90 /* AACatalogCollectionViewController.m in Sources */,
 				844511981CB8EA5300B73A90 /* AAAnimeRelatedTableViewController.m in Sources */,
+				84D90EE91CDA4910009CA3C7 /* Anime.m in Sources */,
 				841C98431CD367E700186392 /* AAAnimeCalendar.m in Sources */,
-				84E75F8A1CC63A070033D3E6 /* Anime+CoreDataProperties.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
