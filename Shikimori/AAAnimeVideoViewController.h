@@ -1,0 +1,21 @@
+//
+//  AAVideoViewController.h
+//  Shikimori
+//
+//  Created by Admin on 30.03.16.
+//  Copyright © 2016 Arsen Avanesyan. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface AAAnimeVideoViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate>
+
+@property (strong, nonatomic) NSString *animeID;
+@property (strong, nonatomic) NSString *sourceURL;
+@property (strong, nonatomic) NSMutableArray *videoVariantArray;
+@property (strong, nonatomic) NSMutableArray *videoResourceURLArray;
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@end
