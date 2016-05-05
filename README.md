@@ -3,6 +3,9 @@
 <img src="https://github.com/Vortexoid/Shikimori/blob/master/Screenshots/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%201.jpg" width="210" height="370" />
 <img src="https://github.com/Vortexoid/Shikimori/blob/master/Screenshots/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%202.jpg" width="210" height="370" />
 <img src="https://github.com/Vortexoid/Shikimori/blob/master/Screenshots/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%204.jpg" width="210" height="370" />
+<img src="https://github.com/Vortexoid/Shikimori/blob/master/Screenshots/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%207.jpg" width="210" height="370" />
+<img src="https://github.com/Vortexoid/Shikimori/blob/master/Screenshots/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%203.jpg" width="210" height="370" />
+<img src="https://github.com/Vortexoid/Shikimori/blob/master/Screenshots/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%206.jpg" width="210" height="370" />
 <img src="https://github.com/Vortexoid/Shikimori/blob/master/Screenshots/5.5-inch%20(iPhone%206%2B)%20-%20Screenshot%205.jpg" width="210" height="370" />
 
 #What i used in this project
