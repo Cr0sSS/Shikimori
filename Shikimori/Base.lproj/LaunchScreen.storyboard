@@ -13,64 +13,41 @@
                         <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchscreen" translatesAutoresizingMaskIntoConstraints="NO" id="bcp-zU-oiD">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                            </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4ts-bR-IqR">
-                                <rect key="frame" x="0.0" y="525" width="414" height="211"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright (c) 2016 Arsen Avanesyan. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6nm-xS-0qx">
-                                        <rect key="frame" x="20" y="143" width="374" height="54"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="54" id="xtP-64-r52"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="18"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shikimori.org" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Htm-8Y-GUT">
-                                        <rect key="frame" x="8" y="71" width="398" height="44"/>
-                                        <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="48"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shikimori.org" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Htm-8Y-GUT">
+                                <rect key="frame" x="0.0" y="219" width="320" height="42"/>
+                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="41"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright (c) 2016 Arsen Avanesyan. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nm-xS-0qx">
+                                <rect key="frame" x="20" y="418" width="280" height="54"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="6nm-xS-0qx" secondAttribute="trailing" constant="20" id="8rz-KE-lqK"/>
-                                    <constraint firstAttribute="height" constant="211" id="RPV-XY-CjD"/>
-                                    <constraint firstItem="6nm-xS-0qx" firstAttribute="top" secondItem="Htm-8Y-GUT" secondAttribute="bottom" constant="28" id="Tbj-3k-ExU"/>
-                                    <constraint firstAttribute="bottom" secondItem="6nm-xS-0qx" secondAttribute="bottom" constant="14" id="VkY-yb-958"/>
-                                    <constraint firstItem="Htm-8Y-GUT" firstAttribute="top" secondItem="4ts-bR-IqR" secondAttribute="top" constant="71" id="dm9-Ey-ss5"/>
-                                    <constraint firstAttribute="trailing" secondItem="Htm-8Y-GUT" secondAttribute="trailing" constant="8" id="fBg-sg-Ahs"/>
-                                    <constraint firstItem="Htm-8Y-GUT" firstAttribute="leading" secondItem="4ts-bR-IqR" secondAttribute="leading" constant="8" id="vKd-r3-Z1z"/>
-                                    <constraint firstItem="6nm-xS-0qx" firstAttribute="leading" secondItem="4ts-bR-IqR" secondAttribute="leading" constant="20" id="x2n-AA-ylj"/>
+                                    <constraint firstAttribute="height" constant="54" id="qdW-fF-yZC"/>
                                 </constraints>
-                            </view>
+                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="1" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="bcp-zU-oiD" secondAttribute="bottom" id="9g7-CD-Vx6"/>
-                            <constraint firstAttribute="trailing" secondItem="4ts-bR-IqR" secondAttribute="trailing" id="Jsr-cY-r8s"/>
-                            <constraint firstItem="bcp-zU-oiD" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="fgB-h4-TtT"/>
-                            <constraint firstAttribute="trailing" secondItem="bcp-zU-oiD" secondAttribute="trailing" id="mMn-D6-N4R"/>
-                            <constraint firstItem="4ts-bR-IqR" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="uhk-7H-uYO"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="4ts-bR-IqR" secondAttribute="bottom" id="wet-ZP-4Rh"/>
-                            <constraint firstItem="bcp-zU-oiD" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="yia-5W-rdD"/>
+                            <constraint firstItem="6nm-xS-0qx" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="20" id="BZh-mt-Cos"/>
+                            <constraint firstAttribute="trailing" secondItem="Htm-8Y-GUT" secondAttribute="trailing" id="C5v-xN-R3T"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="6nm-xS-0qx" secondAttribute="bottom" constant="8" id="ExG-Pw-Cjt"/>
+                            <constraint firstItem="Htm-8Y-GUT" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="GoN-E0-dwL"/>
+                            <constraint firstItem="Htm-8Y-GUT" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="199" id="eNm-Xy-XMy"/>
+                            <constraint firstAttribute="trailing" secondItem="6nm-xS-0qx" secondAttribute="trailing" constant="20" id="hBz-gT-jKO"/>
                         </constraints>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="launchscreen" width="640" height="1136"/>
-    </resources>
 </document>
