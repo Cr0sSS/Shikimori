@@ -17,6 +17,8 @@ Foundation
 
 Autolayout + Size Classes
 
+Multithreading 
+
 CocoaPods
 
 #Requirements
