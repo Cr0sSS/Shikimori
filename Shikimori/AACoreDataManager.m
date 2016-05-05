@@ -19,7 +19,7 @@
 @end
 
 
-static NSInteger friendsInRequest = 100;
+//static NSInteger friendsInRequest = 100;
 
 @implementation AACoreDataManager
 

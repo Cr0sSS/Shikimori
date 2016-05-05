@@ -14,25 +14,19 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchscreen" translatesAutoresizingMaskIntoConstraints="NO" id="fZh-pq-9uI">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shikimori.org" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Htm-8Y-GUT">
-                                <rect key="frame" x="20" y="345" width="280" height="42"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="42" id="AXy-ng-AC4"/>
-                                </constraints>
+                                <rect key="frame" x="229" y="186" width="279" height="41"/>
                                 <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="40"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright (c) 2016 Arsen Avanesyan. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nm-xS-0qx">
-                                <rect key="frame" x="20" y="418" width="280" height="54"/>
+                                <rect key="frame" x="20" y="360" width="696" height="34"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="54" id="qdW-fF-yZC"/>
+                                    <constraint firstAttribute="height" constant="34" id="LaZ-tx-YCt"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -41,26 +35,19 @@
                         </subviews>
                         <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="fZh-pq-9uI" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="4ix-c1-cpJ"/>
-                            <constraint firstItem="6nm-xS-0qx" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="20" id="BZh-mt-Cos"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="6nm-xS-0qx" secondAttribute="bottom" constant="8" id="ExG-Pw-Cjt"/>
-                            <constraint firstAttribute="trailing" secondItem="fZh-pq-9uI" secondAttribute="trailing" id="FNs-cz-qIg"/>
-                            <constraint firstAttribute="trailing" secondItem="Htm-8Y-GUT" secondAttribute="trailing" constant="20" id="OCF-C2-4f0"/>
-                            <constraint firstItem="fZh-pq-9uI" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="RWY-GV-2jt"/>
-                            <constraint firstItem="Htm-8Y-GUT" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="20" id="Zxw-YJ-BTt"/>
-                            <constraint firstAttribute="trailing" secondItem="6nm-xS-0qx" secondAttribute="trailing" constant="20" id="hBz-gT-jKO"/>
-                            <constraint firstItem="6nm-xS-0qx" firstAttribute="top" secondItem="Htm-8Y-GUT" secondAttribute="bottom" constant="31" id="hMy-sX-8gK"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="fZh-pq-9uI" secondAttribute="bottom" id="xac-us-fzZ"/>
+                            <constraint firstAttribute="trailing" secondItem="6nm-xS-0qx" secondAttribute="trailing" constant="20" id="16Z-X7-J5r"/>
+                            <constraint firstItem="6nm-xS-0qx" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="20" id="4YH-TN-Njr"/>
+                            <constraint firstItem="Htm-8Y-GUT" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="6FR-h5-Zom"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="6nm-xS-0qx" secondAttribute="bottom" constant="20" id="CmK-HW-Q25"/>
+                            <constraint firstItem="Htm-8Y-GUT" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="R65-C0-2PY"/>
                         </constraints>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="39" y="375"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="launchscreen" width="640" height="1136"/>
-    </resources>
 </document>
