@@ -12,15 +12,15 @@
 
 @interface AACoreDataManager ()
 
-//@property (assign, nonatomic) NSInteger pageInRequest;
-//@property (strong, nonatomic) NSMutableArray *animeArray;
-//@property (strong, nonatomic) AAAnimeCatalog *animeList;
+@property (assign, nonatomic) NSInteger pageInRequest;
+@property (strong, nonatomic) NSMutableArray *animeArray;
+@property (strong, nonatomic) AAAnimeCatalog *animeList;
 
 @end
 
 
-//static NSInteger friendsInRequest = 100;
-//
+static NSInteger friendsInRequest = 100;
+
 @implementation AACoreDataManager
 
 + (AACoreDataManager*) sharedManager {
@@ -37,14 +37,14 @@
 }
 
 // Uncomment this, if you need load some data in database. And don't forget uncomment property too.
-
+//
 //- (id)init
 //{
 //    self = [super init];
 //    if (self) {
 //    //some properties
 //        self.animeArray = [NSMutableArray array];
-////       [self getAnimeListFromServer];
+//       [self getAnimeListFromServer];
 //        
 //        
 ////            NSFetchRequest *request = [[NSFetchRequest alloc] init];
