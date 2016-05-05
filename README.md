@@ -7,25 +7,25 @@
 
 #What i used in this project
 
-RESTful API + AFNetworking
+• RESTful API + AFNetworking
 
-CoreData
+• CoreData
 
-UIKit
+• UIKit
 
-Foundation
+• Foundation
 
-Autolayout + Size Classes
+• Autolayout + Size Classes
 
-Multithreading 
+• Multithreading 
 
-CocoaPods
+• CocoaPods
 
 #Requirements
 
-Xcode 6.3 or higher 
+• Xcode 6.3 or higher 
 
-iOS 7 or higher
+• iOS 7 or higher
 
 #License
 
