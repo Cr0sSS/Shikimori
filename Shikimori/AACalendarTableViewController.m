@@ -146,7 +146,7 @@
     
     cell.calendarAnimeNameLabel.text = [NSString stringWithFormat:@"%@", self.animeCalendar.russian];
     cell.calendarAnimeNextEpisode.text = [NSString stringWithFormat:@"%@ эпизод", self.animeCalendar.nextEpisode];
-    cell.calendarAnimeNextEpisodeAt.text = [NSString stringWithFormat:@"%@", self.animeCalendar.nextEpisodeAt];
+    cell.calendarAnimeType.text = [NSString stringWithFormat:@"%@", self.animeCalendar.kind];
     
     cell.calendarAnimeNameLabel.textColor = [UIColor colorWithRed:25/255.0 green:181/255.0 blue:254/255.0 alpha:1];
     

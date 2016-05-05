@@ -440,12 +440,6 @@
                                             <rect key="frame" x="8" y="8" width="74" height="103"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EEb-On-bCR">
-                                            <rect key="frame" x="90" y="52" width="222" height="21"/>
-                                            <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="10"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REP-6s-1Tx">
                                             <rect key="frame" x="90" y="90" width="222" height="21"/>
                                             <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="10"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -457,13 +451,19 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REP-6s-1Tx">
+                                            <rect key="frame" x="90" y="52" width="222" height="21"/>
+                                            <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="10"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="calendarAnimeImageView" destination="Yyh-9N-Yew" id="Qv2-PM-6cf"/>
                                     <outlet property="calendarAnimeNameLabel" destination="cLp-WH-ZDX" id="avs-At-pxI"/>
                                     <outlet property="calendarAnimeNextEpisode" destination="EEb-On-bCR" id="nVU-eD-gwn"/>
-                                    <outlet property="calendarAnimeNextEpisodeAt" destination="REP-6s-1Tx" id="nxO-N7-hUg"/>
+                                    <outlet property="calendarAnimeType" destination="REP-6s-1Tx" id="Mqh-Qb-Oaz"/>
                                     <segue destination="qD1-c0-aLw" kind="show" identifier="ShowAnimeProfile" id="GeE-NQ-zVY"/>
                                 </connections>
                             </tableViewCell>
@@ -982,6 +982,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="fHI-Ei-5zc"/>
+        <segue reference="GeE-NQ-zVY"/>
     </inferredMetricsTieBreakers>
 </document>

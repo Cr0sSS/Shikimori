@@ -13,6 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *calendarAnimeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *calendarAnimeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *calendarAnimeNextEpisode;
-@property (weak, nonatomic) IBOutlet UILabel *calendarAnimeNextEpisodeAt;
+@property (weak, nonatomic) IBOutlet UILabel *calendarAnimeType;
 
 @end

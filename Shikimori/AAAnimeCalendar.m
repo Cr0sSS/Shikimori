@@ -26,6 +26,17 @@
             self.russian = [self.anime objectForKey:@"name"];
         }
         
+        if ([[self.anime objectForKey:@"kind"] isEqual:[NSNull null]]) {
+            self.kind = @"Неизвестно";
+        } else {
+            self.kind = [self.anime objectForKey:@"kind"];
+            if ([self.kind isEqualToString:@"tv"]) {
+                self.kind = @"TV сериал";
+            } else if ([self.kind isEqualToString:@"movie"]) {
+                self.kind = @"Фильм";
+            }
+        }
+        
         self.nextEpisode = [responseObject objectForKey:@"next_episode"];
         
         NSString *nextEpisodeAt = [responseObject objectForKey:@"next_episode_at"];

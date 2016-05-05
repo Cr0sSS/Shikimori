@@ -73,8 +73,8 @@ static NSInteger pageInRequest = 0;
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
     self.collectionView.backgroundView = tempImageView;
     
-   // UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    UIVisualEffectView *backgroundBlurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    UIBlurEffect *backgroundblurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+    UIVisualEffectView *backgroundBlurEffectView = [[UIVisualEffectView alloc] initWithEffect:backgroundblurEffect];
     backgroundBlurEffectView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
     [backgroundBlurEffectView setFrame:self.collectionView.frame];
     [tempImageView addSubview:backgroundBlurEffectView];
