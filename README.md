@@ -7,7 +7,7 @@
 
 #What i used in this project
 
-REST API + AFNetworking
+RESTful API + AFNetworking
 
 CoreData
 
