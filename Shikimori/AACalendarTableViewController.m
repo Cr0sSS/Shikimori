@@ -16,10 +16,11 @@
 
 @interface AACalendarTableViewController ()
 
+@property (strong, nonatomic) NSMutableArray *animeArray;
 @property (strong, nonatomic) AAAnimeCalendar *animeCalendar;
 @property (strong, nonatomic) UIImage *placeholder;
 @property (strong, nonatomic) NSString *sectionName;
-@property (strong, nonatomic) NSSet *uniqueNextEpisodeSet;
+@property (strong, nonatomic) NSSet *uniqueDateNextEpisodeAtSet;
 @property (strong, nonatomic) NSMutableArray *rowsInSectionArray;
 @property (strong, nonatomic) NSArray *titleForHeaderInSectionArray;
 
@@ -83,13 +84,12 @@
         
         NSArray *nextEpisodeAtArray = [self.animeArray valueForKey:@"nextEpisodeAt"];
         NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithArray:nextEpisodeAtArray];
-        self.uniqueNextEpisodeSet = [orderedSet set];
+        self.uniqueDateNextEpisodeAtSet = [orderedSet set];
         
         [self.tableView reloadData];
         [blurEffectView removeFromSuperview];
         [SVProgressHUD dismiss];
     } onFailure:^(NSError *error, NSInteger statusCode) {
-        NSLog(@"error = %@, code = %ld", [error localizedDescription], (long)statusCode);
         [SVProgressHUD dismiss];
         [blurEffectView removeFromSuperview];
     }];
@@ -98,7 +98,7 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [self.uniqueNextEpisodeSet count];
+    return [self.uniqueDateNextEpisodeAtSet count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -154,7 +154,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    self.titleForHeaderInSectionArray = [self.uniqueNextEpisodeSet allObjects];
+    self.titleForHeaderInSectionArray = [self.uniqueDateNextEpisodeAtSet allObjects];
     return [self.titleForHeaderInSectionArray objectAtIndex:section];
 }
 

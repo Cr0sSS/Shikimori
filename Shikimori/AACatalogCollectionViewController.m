@@ -17,6 +17,8 @@
 
 @interface AACatalogCollectionViewController ()
 
+@property (strong, nonatomic) NSMutableArray *animeArray;
+@property (strong, nonatomic) NSMutableArray *addPaths;
 @property (strong, nonatomic) UIImage *placeholder;
 @property (assign, nonatomic) BOOL loadingCell;
 @property (strong, nonatomic) UIButton *titleButton;
@@ -226,7 +228,7 @@ static NSInteger pageInRequest = 0;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - 400) {
+    if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - 20) {
         if (!self.loadingCell) {
             [SVProgressHUD show];
             [self getAnimeListFromServer];

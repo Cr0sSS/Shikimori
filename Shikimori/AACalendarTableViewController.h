@@ -10,6 +10,4 @@
 
 @interface AACalendarTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) NSMutableArray *animeArray;
-
 @end

@@ -22,9 +22,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window = window;
-    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *frontViewController = [storyboard instantiateViewControllerWithIdentifier:@"CollectionViewController"];
     AAMenuRevealViewController *rearViewController = [[AAMenuRevealViewController alloc] init];
@@ -38,8 +35,6 @@
     self.viewController = revealController;
     
     self.window.rootViewController = self.viewController;
-    [self.window makeKeyAndVisible];
-
     
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                                                            [UIColor whiteColor], NSForegroundColorAttributeName,

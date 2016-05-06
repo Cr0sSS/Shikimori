@@ -89,7 +89,7 @@
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.font =  [UIFont fontWithName:@"Copperplate" size:17.0];
     cell.textLabel.textColor = [UIColor whiteColor];
-    cell.textLabel.text = NSLocalizedString(text, nil);
+    cell.textLabel.text = text;
     
     return cell;
 }

@@ -218,7 +218,7 @@
         cell = [[UITableViewCell alloc] init];
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%ld серия", indexPath.row + 1];
+    cell.textLabel.text = [NSString stringWithFormat:@"%d серия", indexPath.row + 1];
     UIFont *myFont =  [UIFont fontWithName:@"Copperplate" size:14.0];
     cell.textLabel.font  = myFont;
     

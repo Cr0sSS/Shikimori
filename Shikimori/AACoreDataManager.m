@@ -12,9 +12,9 @@
 
 @interface AACoreDataManager ()
 
-@property (assign, nonatomic) NSInteger pageInRequest;
-@property (strong, nonatomic) NSMutableArray *animeArray;
-@property (strong, nonatomic) AAAnimeCatalog *animeList;
+//@property (assign, nonatomic) NSInteger pageInRequest;
+//@property (strong, nonatomic) NSMutableArray *animeArray;
+//@property (strong, nonatomic) AAAnimeCatalog *animeCatalog;
 
 @end
 

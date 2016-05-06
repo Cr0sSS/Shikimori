@@ -12,9 +12,6 @@
 
 @property (strong, nonatomic) NSString* order;
 @property (strong, nonatomic) NSString* status;
-@property (strong, nonatomic) NSMutableArray *animeArray;
-@property (strong, nonatomic) NSMutableArray *addPaths;
-
 - (void) getAnimeListFromServer;
 
 @end
