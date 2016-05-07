@@ -9,11 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "EDStarRating.h"
 
-@interface AAAnimeProfileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface AAAnimeProfileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSString *animeID;
-@property (strong, nonatomic) NSArray *informationArray;
-@property (strong, nonatomic) NSMutableArray *genresStringArray;
 @property (weak, nonatomic) IBOutlet UIImageView *animeProfileImage;
 @property (weak, nonatomic) IBOutlet UITableView *informationTableView;
 @property (weak, nonatomic) IBOutlet UITableView *descriptionTableView;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AAAnimeRelatedTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface AAAnimeRelatedTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSString *animeID;
 @property (strong, nonatomic) NSMutableArray *animeRelatedArray;

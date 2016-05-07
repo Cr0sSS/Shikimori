@@ -400,14 +400,14 @@
 		8445115D1CAE762A00B73A90 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				841C983E1CD3637B00186392 /* AACalendarTableViewController.h */,
-				841C983F1CD3637B00186392 /* AACalendarTableViewController.m */,
-				841C983B1CD228D800186392 /* AAMenuRevealViewController.h */,
-				841C983C1CD228D800186392 /* AAMenuRevealViewController.m */,
 				844511481CAC06B800B73A90 /* AACatalogCollectionViewController.h */,
 				844511491CAC06B800B73A90 /* AACatalogCollectionViewController.m */,
 				844511501CAC1CA000B73A90 /* AAAnimeProfileViewController.h */,
 				844511511CAC1CA000B73A90 /* AAAnimeProfileViewController.m */,
+				841C983E1CD3637B00186392 /* AACalendarTableViewController.h */,
+				841C983F1CD3637B00186392 /* AACalendarTableViewController.m */,
+				841C983B1CD228D800186392 /* AAMenuRevealViewController.h */,
+				841C983C1CD228D800186392 /* AAMenuRevealViewController.m */,
 				844511531CAC36B400B73A90 /* AAAnimeVideoViewController.h */,
 				844511541CAC36B400B73A90 /* AAAnimeVideoViewController.m */,
 				8445118D1CB7F36700B73A90 /* AAAnimeSimilarTableViewController.h */,

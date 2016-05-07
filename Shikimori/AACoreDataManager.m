@@ -12,14 +12,7 @@
 
 @interface AACoreDataManager ()
 
-//@property (assign, nonatomic) NSInteger pageInRequest;
-//@property (strong, nonatomic) NSMutableArray *animeArray;
-//@property (strong, nonatomic) AAAnimeCatalog *animeCatalog;
-
 @end
-
-
-//static NSInteger friendsInRequest = 100;
 
 @implementation AACoreDataManager
 
@@ -35,86 +28,6 @@
     
     return manager;
 }
-
-// Uncomment this, if you need load some data in database. And don't forget uncomment property too.
-//
-//- (id)init
-//{
-//    self = [super init];
-//    if (self) {
-//    //some properties
-//        self.animeArray = [NSMutableArray array];
-//       [self getAnimeListFromServer];
-//        
-//        
-////            NSFetchRequest *request = [[NSFetchRequest alloc] init];
-////       
-////            NSEntityDescription *description = [NSEntityDescription entityForName:@"Anime" inManagedObjectContext:self.managedObjectContext];
-////        
-////            [request setEntity:description];
-////            [request setResultType:NSDictionaryResultType];
-////        
-////            NSError *requestError = nil;
-////            NSArray *resultArray = [self.managedObjectContext executeFetchRequest:request error:&requestError];
-////            if (requestError) {
-////                NSLog(@"%@", [requestError localizedDescription]);
-////            }
-////            
-////            NSLog(@"%@", resultArray);
-//    }
-//    
-//    return self;
-//}
-//
-//- (void) getAnimeListFromServer {
-//
-//    self.pageInRequest = 0;
-//
-//    for (int i = 0; i < 50; i++) {
-//
-//        [[AAServerManager shareManager] getAnimeList:self.pageInRequest = self.pageInRequest + 1
-//                                               count:friendsInRequest
-//                                               order:nil
-//                                              status:nil
-//                                           onSuccess:^(NSArray *animeArray) {
-//
-//                                               [self.animeArray addObjectsFromArray:animeArray];
-//                                               for (AAAnimeCatalog *animeList in self.animeArray) {
-//                                                   
-//                                                   Anime *anime = [NSEntityDescription insertNewObjectForEntityForName:@"Anime" inManagedObjectContext:self.managedObjectContext];
-//                                                   
-//                                                   anime.animeID = animeList.animeID;
-//                                                   anime.anons = animeList.anons;
-//                                                   anime.englishName = animeList.name;
-//                                                   anime.episodes = animeList.episodes;
-//                                                   anime.episodes_aired = animeList.episodesAired;
-//                                                   anime.imageURL = animeList.imageURL;
-//                                                   anime.kind = animeList.kind;
-//                                                   anime.ongoing = animeList.ongoing;
-//                                                   anime.status = animeList.status;
-//                                                   anime.russianName = animeList.russian;
-//                                                   
-//                                                   if (anime.russianName.length) {
-//                                                       anime.firstLetterForSection = [anime.russianName substringToIndex:1];
-//                                                   } else {
-//                                                       anime.firstLetterForSection = [anime.englishName substringToIndex:1];
-//                                                   }
-//                                                   
-//                                                   if ([anime.firstLetterForSection isEqualToString:@"Ё"]) {
-//                                                       anime.firstLetterForSection = @"Е";
-//                                                   }
-//                                               }
-//
-//                                               [self.managedObjectContext save:nil];
-//
-//                                               [self.animeArray removeAllObjects];
-//
-//                                           }
-//                                           onFailure:^(NSError *error, NSInteger statusCode) {
-//                                               NSLog(@"error = %@, code = %ld", [error localizedDescription], (long)statusCode);
-//                                           }];
-//    }
-//}
 
 #pragma mark - Core Data stack
 
@@ -196,6 +109,5 @@
         }
     }
 }
-
 
 @end

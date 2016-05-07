@@ -44,7 +44,7 @@ static NSInteger pageInRequest = 0;
     self.animeArray = [NSMutableArray array];
     self.loadingCell = YES;
     
-    [self getAnimeListFromServer];
+    [self getAnimeCatalogFromServer];
     
     SWRevealViewController *revealController = [self revealViewController];
     
@@ -65,7 +65,7 @@ static NSInteger pageInRequest = 0;
     [self.titleButton setTitle:@"     По рейтингу      " forState:UIControlStateNormal];
     [self.titleButton setImage:[[UIImage imageNamed:@"arrow_down_icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [self.titleButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
-    [self.titleButton addTarget:self action:@selector(presentStyleMenu:) forControlEvents:UIControlEventTouchUpInside];
+    [self.titleButton addTarget:self action:@selector(presentMenu:) forControlEvents:UIControlEventTouchUpInside];
     self.titleButton.titleLabel.font =  [UIFont fontWithName:@"Copperplate" size:18.0];
     self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
     self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 142, 0, -5);
@@ -104,7 +104,7 @@ static NSInteger pageInRequest = 0;
     [cellImageLayer setMasksToBounds:YES];
 }
 
-- (void)presentStyleMenu:(id)sender {
+- (void)presentMenu:(id)sender {
     NSAttributedString *(^attributedTitle)(NSString *title) = ^NSAttributedString *(NSString *title) {
         UIColor *textColor = [UIColor lightTextColor];
         
@@ -122,7 +122,7 @@ static NSInteger pageInRequest = 0;
           self.order = @"ranked";
           [self.animeArray removeAllObjects];
           pageInRequest = 0;
-          [self getAnimeListFromServer];
+          [self getAnimeCatalogFromServer];
       }],
       [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По популярности") image:nil action:^{
           [SVProgressHUD show];
@@ -134,7 +134,7 @@ static NSInteger pageInRequest = 0;
           self.order = @"popularity";
           [self.animeArray removeAllObjects];
           pageInRequest = 0;
-          [self getAnimeListFromServer];
+          [self getAnimeCatalogFromServer];
       }],
       [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По дате выхода") image:nil action:^{
           [SVProgressHUD show];
@@ -146,7 +146,7 @@ static NSInteger pageInRequest = 0;
           self.order = @"aired_on";
           [self.animeArray removeAllObjects];
           pageInRequest = 0;
-          [self getAnimeListFromServer];
+          [self getAnimeCatalogFromServer];
       }],
       ];
     
@@ -155,11 +155,11 @@ static NSInteger pageInRequest = 0;
 
 #pragma mark - API Methods
 
-- (void) getAnimeListFromServer {
+- (void) getAnimeCatalogFromServer {
     
     [SVProgressHUD show];
     
-    [[AAServerManager shareManager] getAnimeList:pageInRequest = pageInRequest + 1
+    [[AAServerManager shareManager] getAnimeCatalog:pageInRequest = pageInRequest + 1
                                            count:animeInRequest
                                            order:self.order
                                           status:self.status
@@ -178,9 +178,14 @@ static NSInteger pageInRequest = 0;
                                            
                                        }
                                        onFailure:^(NSError *error, NSInteger statusCode) {
-                                           NSLog(@"error = %@, code = %ld", [error localizedDescription], (long)statusCode);
-                                           [SVProgressHUD dismiss];
                                            [self.blurEffectView removeFromSuperview];
+                                           [SVProgressHUD dismiss];
+                                           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
+                                                                                           message:@"Не удалось подключиться к серверу. Попробовать еще раз?"
+                                                                                          delegate:self
+                                                                                 cancelButtonTitle:@"Нет"
+                                                                                 otherButtonTitles:@"Да", nil];
+                                           [alert show];
                                        }];
 }
 
@@ -231,9 +236,20 @@ static NSInteger pageInRequest = 0;
     if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - 20) {
         if (!self.loadingCell) {
             [SVProgressHUD show];
-            [self getAnimeListFromServer];
+            [self getAnimeCatalogFromServer];
             self.loadingCell = YES;
         }
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    
+    if([title isEqualToString:@"Да"]) {
+        pageInRequest = 0;
+        [self getAnimeCatalogFromServer];
     }
 }
 

@@ -7,8 +7,6 @@
 //
 
 #import "AAServerManager.h"
-#import "AACatalogCollectionViewController.h"
-#import "SVProgressHUD.h"
 
 @interface AAServerManager()
 
@@ -18,8 +16,6 @@
 @property (strong, nonatomic) NSMutableArray *animeSimilarArray;
 @property (strong, nonatomic) NSMutableArray *animeRelatedArray;
 @property (strong, nonatomic) NSMutableArray *animeCalendarArray;
-@property (strong, nonatomic) AACatalogCollectionViewController *catalogCollectionController;
-
 
 @end
 
@@ -52,12 +48,12 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
     return self;
 }
 
-- (void)getAnimeList:(NSInteger) page
-                count:(NSInteger) limit
-                order:(NSString*) order
-               status:(NSString*) status
-            onSuccess:(void(^)(NSArray *anime)) success
-            onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure {
+- (void)getAnimeCatalog:(NSInteger) page
+                  count:(NSInteger) limit
+                  order:(NSString*) order
+                 status:(NSString*) status
+              onSuccess:(void(^)(NSArray *anime)) success
+              onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure {
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             @(limit),           @"limit",
@@ -72,11 +68,10 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         
                     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                         self.animeListArray = [NSMutableArray array];
-                       
+                        
                         for (NSDictionary *dict in responseObject) {
                             AAAnimeCatalog *animeList = [[AAAnimeCatalog alloc] initWithServerResponce:dict];
-                            [self.animeListArray addObject:animeList];
-                            
+                            [self.animeListArray addObject:animeList];  
                         }
                         
                         [self.animeListArray removeLastObject];
@@ -87,21 +82,14 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
-                            NSLog(@"Error: %@", error);
-                            [SVProgressHUD dismiss];
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                                                            message:@"Не удалось подключиться к серверу. Попробовать еще раз?"
-                                                                           delegate:self
-                                                                  cancelButtonTitle:@"Нет"
-                                                                  otherButtonTitles:@"Да", nil];
-                            [alert show];
+                            failure(error, error.code);
                         }
                     }];
 }
 
 - (void)getAnimeProfile:(NSString*) idAnime
-               onSuccess:(void(^)(AAAnimeProfile *animeProfile)) success
-               onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure {
+              onSuccess:(void(^)(AAAnimeProfile *animeProfile)) success
+              onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure {
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             idAnime,           @"id",
@@ -112,7 +100,7 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                     progress:^(NSProgress * _Nonnull downloadProgress) {
                         
                     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
- 
+                        
                         self.animeProfile = [[AAAnimeProfile alloc] initWithServerResponce:responseObject];
                         
                         if (success) {
@@ -121,21 +109,14 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
-                            NSLog(@"Error: %@", error);
-                            [SVProgressHUD dismiss];
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                                                            message:@"Не удалось подключиться к серверу"
-                                                                           delegate:self
-                                                                  cancelButtonTitle:@"OK"
-                                                                  otherButtonTitles:nil];
-                            [alert show];
+                            failure(error, error.code);
                         }
                     }];
 }
 
 - (void)getAnimeSimilar:(NSString*) idAnime
-               onSuccess:(void(^)(NSArray *animeSimilar)) success
-               onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure {
+              onSuccess:(void(^)(NSArray *animeSimilar)) success
+              onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure {
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             idAnime,           @"id",
@@ -161,22 +142,15 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
-                            NSLog(@"Error: %@", error);
-                            [SVProgressHUD dismiss];
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                                                            message:@"Не удалось подключиться к серверу"
-                                                                           delegate:self
-                                                                  cancelButtonTitle:@"OK"
-                                                                  otherButtonTitles:nil];
-                            [alert show];
+                            failure(error, error.code);
                         }
                         
                     }];
 }
 
 - (void)getAnimeRelated:(NSString*) idAnime
-               onSuccess:(void(^)(NSArray *animeRelated)) success
-               onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure {
+              onSuccess:(void(^)(NSArray *animeRelated)) success
+              onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure {
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             idAnime,           @"id",
@@ -203,14 +177,7 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
-                            NSLog(@"Error: %@", error);
-                            [SVProgressHUD dismiss];
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                                                            message:@"Не удалось подключиться к серверу"
-                                                                           delegate:self
-                                                                  cancelButtonTitle:@"OK"
-                                                                  otherButtonTitles:nil];
-                            [alert show];
+                            failure(error, error.code);
                         }
                     }];
 }
@@ -236,30 +203,9 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
-                            NSLog(@"Error: %@", error);
-                            [SVProgressHUD dismiss];
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                                                            message:@"Не удалось подключиться к серверу"
-                                                                           delegate:self
-                                                                  cancelButtonTitle:@"OK"
-                                                                  otherButtonTitles:nil];
-                            [alert show];
+                            failure(error, error.code);
                         }
                     }];
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-    
-    if([title isEqualToString:@"Да"]) {
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        [flowLayout setItemSize:CGSizeMake(139, 200)];
-        [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-        self.catalogCollectionController = [[AACatalogCollectionViewController alloc] initWithCollectionViewLayout:flowLayout];
-        [self.catalogCollectionController getAnimeListFromServer];
-    }
 }
 
 @end

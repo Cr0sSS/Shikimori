@@ -14,11 +14,11 @@
 #import "AAAnimeRelated.h"
 #import "AAAnimeCalendar.h"
 
-@interface AAServerManager : NSObject <UIAlertViewDelegate>
+@interface AAServerManager : NSObject 
 
 +(AAServerManager*) shareManager;
 
-- (void)getAnimeList:(NSInteger) page
+- (void)getAnimeCatalog:(NSInteger) page
                 count:(NSInteger) limit
                 order:(NSString*) order
                status:(NSString*) status

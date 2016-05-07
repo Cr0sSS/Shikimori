@@ -90,8 +90,14 @@
         [blurEffectView removeFromSuperview];
         [SVProgressHUD dismiss];
     } onFailure:^(NSError *error, NSInteger statusCode) {
-        [SVProgressHUD dismiss];
         [blurEffectView removeFromSuperview];
+        [SVProgressHUD dismiss];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
+                                                        message:@"Не удалось подключиться к серверу. Попробовать еще раз?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Нет"
+                                              otherButtonTitles:@"Да", nil];
+        [alert show];
     }];
 }
 
@@ -156,6 +162,16 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     self.titleForHeaderInSectionArray = [self.uniqueDateNextEpisodeAtSet allObjects];
     return [self.titleForHeaderInSectionArray objectAtIndex:section];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    
+    if([title isEqualToString:@"Да"]) {
+        [self getAnimeCalendarFromServer];
+    }
 }
 
 #pragma mark - Navigation Methods

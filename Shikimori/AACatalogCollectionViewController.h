@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AACatalogCollectionViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate>
+@interface AACatalogCollectionViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSString* order;
 @property (strong, nonatomic) NSString* status;
-- (void) getAnimeListFromServer;
+
+- (void) getAnimeCatalogFromServer;
 
 @end

@@ -41,6 +41,40 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) convertDate:(AAAnimeSimilarTableViewCell*) cell {
+    NSString *dateString = self.animeProfile.airedOn;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"dd-MM-yyyy"];
+    NSDate *dateFromString = [[NSDate alloc] init];
+    dateFromString = [dateFormatter dateFromString:dateString];
+    
+    [dateFormatter setDateFormat:@"yyyy"];
+    NSString *stringDate = [dateFormatter stringFromDate:dateFromString];
+    cell.similarAnimeYearLabel.text = stringDate;
+    if ([self.animeProfile.status isEqualToString:@"anons"] && self.animeProfile.airedOn != 0) {
+        cell.similarAnimeYearLabel.text = self.animeProfile.airedOn;
+    } else if ([self.animeProfile.status isEqualToString:@"anons"]) {
+        self.animeProfile.airedOn = @"Анонсировано";
+        cell.similarAnimeYearLabel.text = self.animeProfile.airedOn;
+    }
+}
+
+- (void) parseAnimeGenres {
+    for (NSDictionary *genres in self.animeProfile.genresArray) {
+        self.animeProfile.genresRussian = genres[@"russian"];
+        [self.genresStringArray addObject:self.animeProfile.genresRussian];
+    }
+    self.genres = [self.genresStringArray componentsJoinedByString:@", "];
+    
+    [self.genresStringArray removeAllObjects];
+}
+
+- (void) setCALayerForImage:(AAAnimeSimilarTableViewCell*) cell {
+    CALayer *cellImageLayer = cell.similarAnimeImageView.layer;
+    [cellImageLayer setCornerRadius:4];
+    [cellImageLayer setMasksToBounds:YES];
+}
+
 #pragma mark - API Methods
 
 - (void) getAnimeSimilarFromServer {
@@ -77,9 +111,14 @@
                                               }
                                           }
                                           onFailure:^(NSError *error, NSInteger statusCode) {
-                                              NSLog(@"error = %@, code = %ld", [error localizedDescription], (long)statusCode);
-                                              [SVProgressHUD dismiss];
                                               [blurEffectView removeFromSuperview];
+                                              [SVProgressHUD dismiss];
+                                              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
+                                                                                              message:@"Не удалось подключиться к серверу. Попробовать еще раз?"
+                                                                                             delegate:self
+                                                                                    cancelButtonTitle:@"Нет"
+                                                                                    otherButtonTitles:@"Да", nil];
+                                              [alert show];
                                           }];
 }
 
@@ -140,40 +179,14 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark - Methods
+#pragma mark - UIAlertViewDelegate
 
-- (void) convertDate:(AAAnimeSimilarTableViewCell*) cell {
-    NSString *dateString = self.animeProfile.airedOn;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"dd-MM-yyyy"];
-    NSDate *dateFromString = [[NSDate alloc] init];
-    dateFromString = [dateFormatter dateFromString:dateString];
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     
-    [dateFormatter setDateFormat:@"yyyy"];
-    NSString *stringDate = [dateFormatter stringFromDate:dateFromString];
-    cell.similarAnimeYearLabel.text = stringDate;
-    if ([self.animeProfile.status isEqualToString:@"anons"] && self.animeProfile.airedOn != 0) {
-        cell.similarAnimeYearLabel.text = self.animeProfile.airedOn;
-    } else if ([self.animeProfile.status isEqualToString:@"anons"]) {
-        self.animeProfile.airedOn = @"Анонсировано";
-        cell.similarAnimeYearLabel.text = self.animeProfile.airedOn;
+    if([title isEqualToString:@"Да"]) {
+        [self getAnimeSimilarFromServer];
     }
-}
-
-- (void) parseAnimeGenres {
-    for (NSDictionary *genres in self.animeProfile.genresArray) {
-        self.animeProfile.genresRussian = genres[@"russian"];
-        [self.genresStringArray addObject:self.animeProfile.genresRussian];
-    }
-    self.genres = [self.genresStringArray componentsJoinedByString:@", "];
-    
-    [self.genresStringArray removeAllObjects];
-}
-
-- (void) setCALayerForImage:(AAAnimeSimilarTableViewCell*) cell {
-    CALayer *cellImageLayer = cell.similarAnimeImageView.layer;
-    [cellImageLayer setCornerRadius:4];
-    [cellImageLayer setMasksToBounds:YES];
 }
 
 #pragma mark - Navigation Methods
