@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AACatalogCollectionViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UIAlertViewDelegate>
+@interface AACatalogCollectionViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSString* order;
 @property (strong, nonatomic) NSString* status;

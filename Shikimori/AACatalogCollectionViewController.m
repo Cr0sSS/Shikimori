@@ -75,7 +75,7 @@ static NSInteger pageInRequest = 0;
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
     self.collectionView.backgroundView = tempImageView;
     
-    UIBlurEffect *backgroundblurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+    UIBlurEffect *backgroundblurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     UIVisualEffectView *backgroundBlurEffectView = [[UIVisualEffectView alloc] initWithEffect:backgroundblurEffect];
     backgroundBlurEffectView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
     [backgroundBlurEffectView setFrame:self.collectionView.frame];
@@ -98,10 +98,6 @@ static NSInteger pageInRequest = 0;
     cell.layer.borderWidth = 1.0f;
     cell.layer.borderColor = [UIColor grayColor].CGColor;
     cell.layer.cornerRadius = 6.0f;
-    
-    CALayer *cellImageLayer = cell.imageView.layer;
-    [cellImageLayer setCornerRadius:4];
-    [cellImageLayer setMasksToBounds:YES];
 }
 
 - (void)presentMenu:(id)sender {
@@ -115,9 +111,9 @@ static NSInteger pageInRequest = 0;
       [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По рейтингу") image:nil action:^{
           [SVProgressHUD show];
           
-          [self.titleButton setTitle:@"     По рейтингу      " forState:UIControlStateNormal];
           self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
           self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 142, 0, -5);
+          [self.titleButton setTitle:@"     По рейтингу      " forState:UIControlStateNormal];
           
           self.order = @"ranked";
           [self.animeArray removeAllObjects];
@@ -227,6 +223,26 @@ static NSInteger pageInRequest = 0;
     [self setCALayerForImage:cell];
     
     return cell;
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    int columnIphone = 2;
+    int columnIpad = 5;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        CGSize size = CGSizeMake ((self.collectionView.bounds.size.width / columnIpad) - (columnIphone * 8), 240);
+        return size;
+    } else {
+        CGSize size = CGSizeMake ((self.collectionView.bounds.size.width / columnIphone) - (columnIphone * 8), 240);
+        return size;
+    }
+    
+    return CGSizeZero;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(8, 8, 8, 8);
 }
 
 #pragma mark - UIScrollViewDelegate

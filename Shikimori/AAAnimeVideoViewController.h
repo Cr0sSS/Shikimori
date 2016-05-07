@@ -11,9 +11,6 @@
 @interface AAAnimeVideoViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate>
 
 @property (strong, nonatomic) NSString *animeID;
-@property (strong, nonatomic) NSString *sourceURL;
-@property (strong, nonatomic) NSMutableArray *videoVariantArray;
-@property (strong, nonatomic) NSMutableArray *videoResourceURLArray;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

@@ -13,6 +13,9 @@
 
 @interface AAAnimeVideoViewController ()
 
+@property (strong, nonatomic) NSString *sourceURL;
+@property (strong, nonatomic) NSMutableArray *videoVariantArray;
+@property (strong, nonatomic) NSMutableArray *videoResourceURLArray;
 @property (strong, nonatomic) AAAnimeVideo *videoURL;
 
 @end
@@ -37,12 +40,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-//    
-//    NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"http:%@\" width=\"%f\" height=\"160\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
-//    [self.webView loadHTMLString:htmlString baseURL:nil];
-//}
-
 #pragma mark - Parse Methods
 
 - (void) parseVideoEpisode {
@@ -55,7 +52,7 @@
     [blurEffectView setFrame:self.view.frame];
     [self.view addSubview:blurEffectView];
     
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
     dispatch_async(queue, ^{
         
         [self.activityIndicator startAnimating];
@@ -123,7 +120,7 @@
 
 
 - (void) parseVideoURL {
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
     dispatch_async(queue, ^{
         
         NSData *sourceHTMLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.sourceURL]];
