@@ -113,12 +113,6 @@
                                           onFailure:^(NSError *error, NSInteger statusCode) {
                                               [blurEffectView removeFromSuperview];
                                               [SVProgressHUD dismiss];
-                                              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                                                                              message:@"Не удалось подключиться к серверу. Попробовать еще раз?"
-                                                                                             delegate:self
-                                                                                    cancelButtonTitle:@"Нет"
-                                                                                    otherButtonTitles:@"Да", nil];
-                                              [alert show];
                                           }];
 }
 

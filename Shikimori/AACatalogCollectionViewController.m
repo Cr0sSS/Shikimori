@@ -8,7 +8,7 @@
 
 #import "AACatalogCollectionViewController.h"
 #import "AAServerManager.h"
-#import "AAAnimeCollectionViewCell.h"
+#import "AACatalogCollectionViewCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "AAAnimeProfileViewController.h"
 #import "SVProgressHUD.h"
@@ -93,7 +93,7 @@ static NSInteger pageInRequest = 0;
     [self.navigationController pushViewController:searchVC animated:YES];
 }
 
-- (void) setCALayerForImage:(AAAnimeCollectionViewCell *)cell {
+- (void) setCALayerForImage:(AACatalogCollectionViewCell *)cell {
     cell.backgroundColor = [UIColor whiteColor];
     cell.layer.borderWidth = 1.0f;
     cell.layer.borderColor = [UIColor grayColor].CGColor;
@@ -149,6 +149,16 @@ static NSInteger pageInRequest = 0;
     [RWDropdownMenu presentFromViewController:self withItems:styleItems align:RWDropdownMenuCellAlignmentCenter style:0 navBarImage:nil completion:nil];
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+   [self.collectionView reloadData];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    [self.collectionView reloadData];
+}
+
 #pragma mark - API Methods
 
 - (void) getAnimeCatalogFromServer {
@@ -199,14 +209,14 @@ static NSInteger pageInRequest = 0;
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString * const reuseIdentifier = @"Cell";
-    AAAnimeCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    AACatalogCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     if (!cell) {
-        cell = [[AAAnimeCollectionViewCell alloc] init];
+        cell = [[AACatalogCollectionViewCell alloc] init];
     }
     
     AAAnimeCatalog *anime = [self.animeArray objectAtIndex:indexPath.row];
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://shikimori.org%@", anime.imageURL]]];
-    __weak AAAnimeCollectionViewCell* weakCell = cell;
+    __weak AACatalogCollectionViewCell* weakCell = cell;
     
     [cell.imageView
      setImageWithURLRequest:request
@@ -231,10 +241,10 @@ static NSInteger pageInRequest = 0;
     int columnIphone = 2;
     int columnIpad = 5;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        CGSize size = CGSizeMake ((self.collectionView.bounds.size.width / columnIpad) - (columnIphone * 8), 240);
+        CGSize size = CGSizeMake ((self.collectionView.bounds.size.width / columnIpad) - (columnIphone * 8), 220);
         return size;
     } else {
-        CGSize size = CGSizeMake ((self.collectionView.bounds.size.width / columnIphone) - (columnIphone * 8), 240);
+        CGSize size = CGSizeMake ((self.collectionView.bounds.size.width / columnIphone) - (columnIphone * 8), 220);
         return size;
     }
     

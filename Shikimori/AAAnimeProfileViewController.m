@@ -50,11 +50,10 @@
     _starRating.starHighlightedImage = [[UIImage imageNamed:@"star-highlighted-template"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 
     self.starRating.maxRating = 5.0;
-    self.starRating.horizontalMargin = 12;
     self.starRating.editable=YES;
     self.starRating.displayMode=EDStarRatingDisplayAccurate;
     
-    self.unchangeableRatingHeaderTextLabel.font = [UIFont fontWithName:@"Copperplate" size:12.0];
+
     self.unchangeableRatingHeaderTextLabel.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f];
     
     CALayer *animeImageLayer = self.animeProfileImage.layer;
@@ -93,6 +92,23 @@
     self.starRating.rating = scoreFloat / 2;
 }
 
+- (void) downloadData {
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://shikimori.org%@", self.animeProfile.imageURL]]];
+    [self.animeProfileImage
+     setImageWithURLRequest:request
+     placeholderImage:self.placeholder
+     success:^(NSURLRequest * request, NSHTTPURLResponse *response, UIImage *image) {
+         self.animeProfileImage.image = image;
+     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+         NSLog(@"%@", error);
+     }];
+    
+    [self setScoreRating];
+    
+    self.animeScoreTextLabel.text = self.animeProfile.score;
+    self.animeNameTextLabel.text = self.animeProfile.russian;
+}
+
 #pragma mark - API Method
 
 - (void) getAnimeProfileFromServer {
@@ -111,6 +127,7 @@
         
         [self.informationTableView reloadData];
         [self.descriptionTableView reloadData];
+        [self downloadData];
         [SVProgressHUD dismiss];
         [blurEffectView removeFromSuperview];
     } onFailure:^(NSError *error, NSInteger statusCode) {
@@ -131,7 +148,6 @@
     return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.descriptionTableView) {
         return 1;
@@ -141,9 +157,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (tableView == self.descriptionTableView) {
-        return @"   Описание";
+        return @"Описание";
     } else if (tableView == self.informationTableView) {
-        return @"   Информация";
+        return @"Информация";
     } else {
        return 0;
     }
@@ -152,17 +168,21 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString * const reuseIdentifier = @"Cell";
     AAAnimeProfileInformationViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    
     if (tableView == self.descriptionTableView && self.animeProfile != 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+       
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", self.animeProfile.descriptionAnime];
+        cell.textLabel.numberOfLines = 0;
         
-        if (indexPath.row == 0) {
-            cell.textLabel.text = [NSString stringWithFormat:@"%@", self.animeProfile.descriptionAnime];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            UIFont *myFont =  [UIFont fontWithName:@"Copperplate" size:18.0];
+            cell.textLabel.font  = myFont;
+        } else {
             UIFont *myFont =  [UIFont fontWithName:@"Copperplate" size:10.0];
             cell.textLabel.font  = myFont;
-            cell.textLabel.numberOfLines = 0;
-            
-            return cell;
         }
+        
+        return cell;
     }
     
     if (tableView == self.informationTableView && self.animeProfile != 0) {
@@ -198,27 +218,7 @@
             cell.customDetailTextLabel.text = [NSString stringWithFormat:@"%@", genresString];
             cell.customDetailTextLabel.numberOfLines = 0;
         }
-        
-        NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://shikimori.org%@", self.animeProfile.imageURL]]];
-        [self.animeProfileImage
-         setImageWithURLRequest:request
-         placeholderImage:self.placeholder
-         success:^(NSURLRequest * request, NSHTTPURLResponse *response, UIImage *image) {
-             self.animeProfileImage.image = image;
-         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-             NSLog(@"%@", error);
-         }];
-        
-        [self setScoreRating];
-        
-        self.animeScoreTextLabel.text = self.animeProfile.score;
-        self.animeNameTextLabel.text = self.animeProfile.russian;
-        
-        UIFont *myFont =  [UIFont fontWithName:@"Copperplate" size:9.0];
-        cell.customTextLabel.font  = myFont;
-        cell.customDetailTextLabel.font  = myFont;
     }
-    
     return cell;
 }
 
@@ -226,44 +226,64 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 5) {
-        return 30;
-    } else if (tableView == self.descriptionTableView) {
-        self.descriptionTableView.estimatedRowHeight = 80;
-        self.descriptionTableView.rowHeight = UITableViewAutomaticDimension;
-        return self.descriptionTableView.rowHeight;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if (tableView == self.descriptionTableView) {
+            self.descriptionTableView.estimatedRowHeight = 25;
+            self.descriptionTableView.rowHeight = UITableViewAutomaticDimension;
+            return self.descriptionTableView.rowHeight;
+        } else {
+            return 70;
+        }
     } else {
-        return 24;
+        if (indexPath.row == 5) {
+            return 30;
+        } else if (tableView == self.descriptionTableView) {
+            self.descriptionTableView.estimatedRowHeight = 25;
+            self.descriptionTableView.rowHeight = UITableViewAutomaticDimension;
+            return self.descriptionTableView.rowHeight;
+        } else {
+            return 24;
+        }
     }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (tableView == self.informationTableView) {
-    UILabel *myLabel = [[UILabel alloc] init];
-    myLabel.frame = CGRectMake(0, 8, self.view.bounds.size.width, 20);
-    myLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
-    myLabel.font = [UIFont fontWithName:@"Copperplate" size:12.0];
-    myLabel.text = [self tableView:tableView titleForHeaderInSection:section];
-    myLabel.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f];
-    
-    UIView *headerView = [[UIView alloc] init];
-    [headerView addSubview:myLabel];
-    
-    return headerView;
-    } else if (tableView == self.descriptionTableView) {
         UILabel *myLabel = [[UILabel alloc] init];
-        myLabel.frame = CGRectMake(0, 8, self.view.frame.size.width, 20);
+        myLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 20);
         myLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
-        myLabel.font = [UIFont fontWithName:@"Copperplate" size:12.0];
         myLabel.text = [self tableView:tableView titleForHeaderInSection:section];
         myLabel.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            myLabel.font = [UIFont fontWithName:@"Copperplate" size:22.0];
+        } else {
+            myLabel.font = [UIFont fontWithName:@"Copperplate" size:12.0];
+        }
+        
+        UIView *headerView = [[UIView alloc] init];
+        [headerView addSubview:myLabel];
+        
+        return headerView;
+    } else if (tableView == self.descriptionTableView) {
+        UILabel *myLabel = [[UILabel alloc] init];
+        myLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 20);
+        myLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
+        myLabel.text = [self tableView:tableView titleForHeaderInSection:section];
+        myLabel.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            myLabel.font = [UIFont fontWithName:@"Copperplate" size:22.0];
+        } else {
+            myLabel.font = [UIFont fontWithName:@"Copperplate" size:12.0];
+        }
         
         UIView *headerView = [[UIView alloc] init];
         [headerView addSubview:myLabel];
         
         return headerView;
     } else {
-      return nil;
+        return nil;
     }
 }
 

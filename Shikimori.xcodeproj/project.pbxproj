@@ -45,7 +45,7 @@
 		844511441CAC006600B73A90 /* AAAnimeCatalog.m in Sources */ = {isa = PBXBuildFile; fileRef = 844511431CAC006600B73A90 /* AAAnimeCatalog.m */; };
 		844511471CAC00DD00B73A90 /* AAAnimeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 844511461CAC00DD00B73A90 /* AAAnimeProfile.m */; };
 		8445114A1CAC06B800B73A90 /* AACatalogCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844511491CAC06B800B73A90 /* AACatalogCollectionViewController.m */; };
-		8445114F1CAC090A00B73A90 /* AAAnimeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8445114E1CAC090A00B73A90 /* AAAnimeCollectionViewCell.m */; };
+		8445114F1CAC090A00B73A90 /* AACatalogCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8445114E1CAC090A00B73A90 /* AACatalogCollectionViewCell.m */; };
 		844511521CAC1CA000B73A90 /* AAAnimeProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844511511CAC1CA000B73A90 /* AAAnimeProfileViewController.m */; };
 		844511551CAC36B400B73A90 /* AAAnimeVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844511541CAC36B400B73A90 /* AAAnimeVideoViewController.m */; };
 		844511581CAC3A4D00B73A90 /* AAAnimeVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 844511571CAC3A4D00B73A90 /* AAAnimeVideo.m */; };
@@ -144,8 +144,8 @@
 		844511461CAC00DD00B73A90 /* AAAnimeProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAAnimeProfile.m; sourceTree = "<group>"; };
 		844511481CAC06B800B73A90 /* AACatalogCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AACatalogCollectionViewController.h; sourceTree = "<group>"; };
 		844511491CAC06B800B73A90 /* AACatalogCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AACatalogCollectionViewController.m; sourceTree = "<group>"; };
-		8445114D1CAC090A00B73A90 /* AAAnimeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAAnimeCollectionViewCell.h; sourceTree = "<group>"; };
-		8445114E1CAC090A00B73A90 /* AAAnimeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAAnimeCollectionViewCell.m; sourceTree = "<group>"; };
+		8445114D1CAC090A00B73A90 /* AACatalogCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AACatalogCollectionViewCell.h; sourceTree = "<group>"; };
+		8445114E1CAC090A00B73A90 /* AACatalogCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AACatalogCollectionViewCell.m; sourceTree = "<group>"; };
 		844511501CAC1CA000B73A90 /* AAAnimeProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAAnimeProfileViewController.h; sourceTree = "<group>"; };
 		844511511CAC1CA000B73A90 /* AAAnimeProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAAnimeProfileViewController.m; sourceTree = "<group>"; };
 		844511531CAC36B400B73A90 /* AAAnimeVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAAnimeVideoViewController.h; sourceTree = "<group>"; };
@@ -197,6 +197,7 @@
 		2903642879E431AAD6304D68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				844511061CABFA6700B73A90 /* libxml2.2.tbd */,
 				1A9C0E421C13441D37FCB186 /* libPods-Shikimori.a */,
 			);
 			name = Frameworks;
@@ -272,7 +273,6 @@
 		844510D81CABF94E00B73A90 = {
 			isa = PBXGroup;
 			children = (
-				844511061CABFA6700B73A90 /* libxml2.2.tbd */,
 				841C98201CCD2F8B00186392 /* Podfile */,
 				84FAF6E81CC4BA9600C036B6 /* CoreData.xcdatamodeld */,
 				844510E31CABF94E00B73A90 /* Shikimori */,
@@ -372,8 +372,8 @@
 		8445114C1CAC08EB00B73A90 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				8445114D1CAC090A00B73A90 /* AAAnimeCollectionViewCell.h */,
-				8445114E1CAC090A00B73A90 /* AAAnimeCollectionViewCell.m */,
+				8445114D1CAC090A00B73A90 /* AACatalogCollectionViewCell.h */,
+				8445114E1CAC090A00B73A90 /* AACatalogCollectionViewCell.m */,
 				844511991CB92DFD00B73A90 /* AAAnimeSimilarTableViewCell.h */,
 				8445119A1CB92DFD00B73A90 /* AAAnimeSimilarTableViewCell.m */,
 				8445119C1CBBE09B00B73A90 /* AAAnimeProfileInformationViewCell.h */,
@@ -644,7 +644,7 @@
 				844511581CAC3A4D00B73A90 /* AAAnimeVideo.m in Sources */,
 				8445119E1CBBE09B00B73A90 /* AAAnimeProfileInformationViewCell.m in Sources */,
 				842E2FC91CD8F3710005E612 /* EDStarRating.m in Sources */,
-				8445114F1CAC090A00B73A90 /* AAAnimeCollectionViewCell.m in Sources */,
+				8445114F1CAC090A00B73A90 /* AACatalogCollectionViewCell.m in Sources */,
 				842E2FD11CD8F38E0005E612 /* TFHppleElement.m in Sources */,
 				842E2FC61CD8F35F0005E612 /* SWRevealViewController.m in Sources */,
 				842E2FFC1CD8F3E70005E612 /* AFAutoPurgingImageCache.m in Sources */,

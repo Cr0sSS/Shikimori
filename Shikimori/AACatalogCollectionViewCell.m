@@ -6,8 +6,8 @@
 //  Copyright © 2016 Arsen Avanesyan. All rights reserved.
 //
 
-#import "AAAnimeCollectionViewCell.h"
+#import "AACatalogCollectionViewCell.h"
 
-@implementation AAAnimeCollectionViewCell
+@implementation AACatalogCollectionViewCell
 
 @end
