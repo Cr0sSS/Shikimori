@@ -106,7 +106,6 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         if (success) {
                             success(self.animeProfile);
                         }
-                        
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
                             failure(error, error.code);
@@ -139,12 +138,10 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         if (success) {
                             success(self.animeSimilarArray);
                         }
-                        
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
                             failure(error, error.code);
                         }
-                        
                     }];
 }
 
@@ -174,7 +171,6 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         if (success) {
                             success(self.animeRelatedArray);
                         }
-                        
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
                             failure(error, error.code);
@@ -191,7 +187,6 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         
                     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                         self.animeCalendarArray = [NSMutableArray array];
-                        NSLog(@"%@", responseObject);
                         for (NSDictionary *dict in responseObject) {
                             AAAnimeCalendar *animeCalendar = [[AAAnimeCalendar alloc] initWithServerResponce:dict];
                             [self.animeCalendarArray addObject:animeCalendar];
@@ -200,7 +195,6 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         if (success) {
                             success(self.animeCalendarArray);
                         }
-                        
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
                             failure(error, error.code);

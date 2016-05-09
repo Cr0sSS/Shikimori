@@ -142,6 +142,7 @@
     } else if (indexPath.section == 1) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         AACalendarTableViewController *calendarController = [storyboard  instantiateViewControllerWithIdentifier:@"CalendarTableView"];
+
         UINavigationController *frontNavigationController = [[UINavigationController alloc] initWithRootViewController:calendarController];
         
         [revealController setFrontViewController:frontNavigationController animated:YES];

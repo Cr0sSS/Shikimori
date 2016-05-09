@@ -224,8 +224,7 @@
 
 #pragma mark <UITableViewDelegate>
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         if (tableView == self.descriptionTableView) {
             self.descriptionTableView.estimatedRowHeight = 25;

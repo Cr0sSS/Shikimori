@@ -237,18 +237,60 @@ static NSInteger pageInRequest = 0;
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+
+#define IS_IPHONE_6P (SCREEN_MAX_LENGTH == 736.0)
+#define IS_IPAD_PRO (SCREEN_MAX_LENGTH == 1366)
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    int columnIphone = 2;
-    int columnIpad = 5;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        CGSize size = CGSizeMake ((self.collectionView.bounds.size.width / columnIpad) - (columnIphone * 8), 220);
-        return size;
+    float column = 0.0f;
+    float section = 0.0f;
+    
+    if (IS_IPAD) {
+        if (IS_IPAD_PRO) {
+            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+                column = 5.0f;
+                section = 2.4f;
+            } else {
+                column = 4.0f;
+                section = 3.4f;
+            }
+        } else {
+            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+                column = 4.0f;
+                section = 2.1f;
+            } else {
+                column = 3.0f;
+                section = 2.8f;
+            }
+        }
     } else {
-        CGSize size = CGSizeMake ((self.collectionView.bounds.size.width / columnIphone) - (columnIphone * 8), 220);
-        return size;
+        if (IS_IPHONE_6P) {
+            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+                column = 4.0f;
+                section = 1.5f;
+            } else {
+                column = 2.0f;
+                section = 2.5f;
+            }
+        } else {
+            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+                column = 4.0f;
+                section = 1.5f;
+            } else {
+                column = 2.0f;
+                section = 2.5f;
+            }
+        }
     }
     
-    return CGSizeZero;
+    CGSize size = CGSizeMake ((self.collectionView.bounds.size.width / column) - (16), (self.collectionView.bounds.size.height / section) - (16));
+    return size;;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {

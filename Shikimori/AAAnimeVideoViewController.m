@@ -215,16 +215,22 @@
         cell = [[UITableViewCell alloc] init];
     }
     
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIFont *myFont =  [UIFont fontWithName:@"Copperplate" size:18.0];
+        cell.textLabel.font  = myFont;
+    } else {
+        UIFont *myFont =  [UIFont fontWithName:@"Copperplate" size:14.0];
+        cell.textLabel.font  = myFont;
+    }
+    
     cell.textLabel.text = [NSString stringWithFormat:@"%d серия", indexPath.row + 1];
-    UIFont *myFont =  [UIFont fontWithName:@"Copperplate" size:14.0];
-    cell.textLabel.font  = myFont;
     
     return cell;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
-    return @"   Эпизоды";
+    return @"Эпизоды";
 }
 
 #pragma mark UITableViewDelegate
@@ -240,11 +246,17 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
     UILabel *myLabel = [[UILabel alloc] init];
-    myLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 20);
+
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        myLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 24);
+        myLabel.font = [UIFont fontWithName:@"Copperplate" size:22.0];
+    } else {
+        myLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 24);
+        myLabel.font = [UIFont fontWithName:@"Copperplate" size:16.0];
+    }
     myLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
-    myLabel.font = [UIFont fontWithName:@"Copperplate" size:16.0];
     myLabel.text = [self tableView:tableView titleForHeaderInSection:section];
     myLabel.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f];
     
@@ -253,5 +265,14 @@
     
     return headerView;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return 56;
+    } else {
+        return 34;
+    }
+}
+
 
 @end

@@ -70,12 +70,6 @@
 
 - (void) getAnimeCalendarFromServer {
     
-    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
-    [blurEffectView setFrame:self.view.frame];
-    [self.view addSubview:blurEffectView];
-    
     [SVProgressHUD show];
     
     [[AAServerManager shareManager] getAnimeOngoingCalendar:^(NSArray *animeCalendar) {
@@ -87,10 +81,10 @@
         self.uniqueDateNextEpisodeAtSet = [orderedSet set];
         
         [self.tableView reloadData];
-        [blurEffectView removeFromSuperview];
+        //[blurEffectView removeFromSuperview];
         [SVProgressHUD dismiss];
     } onFailure:^(NSError *error, NSInteger statusCode) {
-        [blurEffectView removeFromSuperview];
+        //[blurEffectView removeFromSuperview];
         [SVProgressHUD dismiss];
     }];
 }
@@ -156,6 +150,16 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     self.titleForHeaderInSectionArray = [self.uniqueDateNextEpisodeAtSet allObjects];
     return [self.titleForHeaderInSectionArray objectAtIndex:section];
+}
+
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return 240;
+    } else {
+        return 120;
+    }
 }
 
 #pragma mark - Navigation Methods

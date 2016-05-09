@@ -11,6 +11,7 @@
 #import "AAAnimeSearchTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "AAAnimeProfileViewController.h"
+#import "SVProgressHUD.h"
 
 @interface AAAnimeSearchTableViewController ()
 
@@ -22,6 +23,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView* blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
+    [blurEffectView setFrame:self.view.frame];
+    [self.view addSubview:blurEffectView];
+    
+    [SVProgressHUD show];
     
     self.placeholder = [UIImage imageNamed:@"imageholder"];
         
@@ -35,6 +44,9 @@
                        dispatch_async(dispatch_get_main_queue(),
                                       ^{
                                           [self.tableView reloadData];
+                                          [blurEffectView removeFromSuperview];
+                                          [SVProgressHUD dismiss];
+
                                       });
                    });
 }
@@ -50,6 +62,8 @@
     }
     return _managedObjectContext;
 }
+
+#pragma mark - UITableDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [[self.fetchedResultsController sections] count];
@@ -153,6 +167,16 @@
     return sectionName;
 }
 
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return 240;
+    } else {
+        return 120;
+    }
+}
+
 #pragma mark - Fetched results controller
 
 - (NSFetchedResultsController*)filter:(NSString*)text {
@@ -189,7 +213,7 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
-
+    
     return _fetchedResultsController;
 }
 
