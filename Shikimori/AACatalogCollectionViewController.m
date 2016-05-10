@@ -57,7 +57,6 @@ static NSInteger pageInRequest = 0;
     self.titleButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.titleButton setTitle:@"     По рейтингу      " forState:UIControlStateNormal];
     [self.titleButton setImage:[[UIImage imageNamed:@"arrow_down_icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-    [self.titleButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
     [self.titleButton addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
     self.titleButton.titleLabel.font =  [UIFont fontWithName:@"Copperplate" size:18.0];
     self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);

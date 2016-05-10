@@ -52,11 +52,11 @@
     
     [SVProgressHUD show];
     
-    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
-    [blurEffectView setFrame:self.view.frame];
-    [self.view addSubview:blurEffectView];
+    UIView *preloadView = [[UIView alloc] init];
+    preloadView.backgroundColor = [UIColor whiteColor];
+    preloadView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
+    [preloadView setFrame:self.view.frame];
+    [self.view addSubview:preloadView];
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
     dispatch_async(queue, ^{
@@ -119,7 +119,7 @@
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
             [SVProgressHUD dismiss];
-            [blurEffectView removeFromSuperview];
+            [preloadView removeFromSuperview];
         });
     });
 }
