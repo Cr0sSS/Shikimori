@@ -38,9 +38,16 @@
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     
-    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [UIColor whiteColor], NSForegroundColorAttributeName,
-                                                           [UIFont fontWithName:@"Copperplate" size:22.0], NSFontAttributeName, nil]];
+    if (IS_IPHONE) {
+        [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                               [UIColor whiteColor], NSForegroundColorAttributeName,
+                                                               [UIFont fontWithName:@"Copperplate" size:22.0], NSFontAttributeName, nil]];
+    } else {
+        [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                               [UIColor whiteColor], NSForegroundColorAttributeName,
+                                                               [UIFont fontWithName:@"Copperplate" size:28.0], NSFontAttributeName, nil]];
+    }
+
     
     [UINavigationBar appearance].tintColor = [UIColor whiteColor];
 

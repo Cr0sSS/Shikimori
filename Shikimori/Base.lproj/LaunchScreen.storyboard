@@ -14,35 +14,74 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright (c) 2016 Arsen Avanesyan. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nm-xS-0qx">
-                                <rect key="frame" x="20" y="360" width="696" height="34"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="LaZ-tx-YCt"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shikimori.org" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Htm-8Y-GUT">
-                                <rect key="frame" x="229" y="186" width="279" height="41"/>
+                                <rect key="frame" x="68" y="348" width="279" height="41"/>
                                 <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="40"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="54"/>
+                                </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright (c) 2016 Arsen Avanesyan. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nm-xS-0qx">
+                                <rect key="frame" x="91" y="694" width="233" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="80q-y3-AjV"/>
+                                    <constraint firstAttribute="width" constant="367" id="VCa-Ya-NEt"/>
+                                    <constraint firstAttribute="width" constant="233" id="WqU-W2-Ts5"/>
+                                    <constraint firstAttribute="height" constant="56" id="qGM-Th-HaR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="VCa-Ya-NEt"/>
+                                        <exclude reference="qGM-Th-HaR"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="18"/>
+                                    <mask key="constraints">
+                                        <exclude reference="80q-y3-AjV"/>
+                                        <include reference="VCa-Ya-NEt"/>
+                                        <exclude reference="WqU-W2-Ts5"/>
+                                        <include reference="qGM-Th-HaR"/>
+                                    </mask>
+                                </variation>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="6nm-xS-0qx" secondAttribute="trailing" constant="20" id="16Z-X7-J5r"/>
-                            <constraint firstItem="6nm-xS-0qx" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="20" id="4YH-TN-Njr"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="6nm-xS-0qx" secondAttribute="bottom" constant="8" symbolic="YES" id="3iu-Ug-m7J"/>
                             <constraint firstItem="Htm-8Y-GUT" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="6FR-h5-Zom"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="6nm-xS-0qx" secondAttribute="bottom" constant="20" id="CmK-HW-Q25"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="6nm-xS-0qx" secondAttribute="bottom" constant="8" symbolic="YES" id="NOU-pw-0N1"/>
                             <constraint firstItem="Htm-8Y-GUT" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="R65-C0-2PY"/>
+                            <constraint firstItem="6nm-xS-0qx" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="cfI-Qw-Y15"/>
+                            <constraint firstItem="6nm-xS-0qx" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="rle-K8-cBy"/>
+                            <constraint firstAttribute="bottom" secondItem="6nm-xS-0qx" secondAttribute="bottom" constant="20" symbolic="YES" id="u6w-9K-qvn"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="cfI-Qw-Y15"/>
+                                <exclude reference="u6w-9K-qvn"/>
+                                <exclude reference="3iu-Ug-m7J"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <mask key="constraints">
+                                <include reference="cfI-Qw-Y15"/>
+                                <exclude reference="rle-K8-cBy"/>
+                                <exclude reference="u6w-9K-qvn"/>
+                                <include reference="3iu-Ug-m7J"/>
+                                <exclude reference="NOU-pw-0N1"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>

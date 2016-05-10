@@ -31,6 +31,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self getAnimeProfileFromServer];
+    
     self.descriptionTextLabel = [[UILabel alloc] init];
     self.descriptionTextLabel.numberOfLines = 0;
     [self.scrollView addSubview:self.descriptionTextLabel];
@@ -39,8 +41,6 @@
     } else {
         self.descriptionTextLabel.font = [UIFont fontWithName:@"Copperplate" size:18.0];
     }
-    
-    [self getAnimeProfileFromServer];
 
     self.informations = @[@"Тип:", @"Эпизоды:", @"Длительность эпизода:", @"Вышло:", @"Закончилось:", @"Жанры:"];
     
