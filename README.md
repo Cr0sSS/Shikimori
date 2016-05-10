@@ -24,6 +24,10 @@
 
 • CocoaPods
 
+#Preload Core Data
+
+Project uses core data preloading , to correctly display the database use the real device
+
 #Requirements
 
 • Xcode 6.3 or higher 
