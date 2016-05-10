@@ -17,31 +17,24 @@
 
 @interface AACatalogCollectionViewController ()
 
-@property (strong, nonatomic) NSMutableArray *animeArray;
-@property (strong, nonatomic) NSMutableArray *addPaths;
+@property (strong, nonatomic) NSMutableArray *animes;
+@property (strong, nonatomic) NSMutableArray *addCell;
 @property (strong, nonatomic) UIImage *placeholder;
 @property (assign, nonatomic) BOOL loadingCell;
 @property (strong, nonatomic) UIButton *titleButton;
-@property (strong, nonatomic) UIVisualEffectView *blurEffectView;
 
 @end
 
 @implementation AACatalogCollectionViewController
 
-static NSInteger animeInRequest = 30;
+static NSInteger batchSize = 30;
 static NSInteger pageInRequest = 0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    self.blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
-    [self.blurEffectView setFrame:self.view.frame];
-    [self.view addSubview:self.blurEffectView];
-    
     pageInRequest = 0;
-    self.animeArray = [NSMutableArray array];
+    self.animes = [NSMutableArray array];
     self.loadingCell = YES;
     
     [self getAnimeCatalogFromServer];
@@ -65,7 +58,7 @@ static NSInteger pageInRequest = 0;
     [self.titleButton setTitle:@"     По рейтингу      " forState:UIControlStateNormal];
     [self.titleButton setImage:[[UIImage imageNamed:@"arrow_down_icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [self.titleButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
-    [self.titleButton addTarget:self action:@selector(presentMenu:) forControlEvents:UIControlEventTouchUpInside];
+    [self.titleButton addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
     self.titleButton.titleLabel.font =  [UIFont fontWithName:@"Copperplate" size:18.0];
     self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
     self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 142, 0, -5);
@@ -82,81 +75,24 @@ static NSInteger pageInRequest = 0;
     [tempImageView addSubview:backgroundBlurEffectView];
     
     self.placeholder = [UIImage imageNamed:@"imageholder"];
+    
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    layout.minimumLineSpacing = 8;
+    layout.minimumInteritemSpacing = 0;
+    layout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8);
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-- (void)showSearchController {
-    UIViewController *searchVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
-    [self.navigationController pushViewController:searchVC animated:YES];
-}
-
-- (void) setCALayerForImage:(AACatalogCollectionViewCell *)cell {
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.layer.borderWidth = 1.0f;
-    cell.layer.borderColor = [UIColor grayColor].CGColor;
-    cell.layer.cornerRadius = 6.0f;
-}
-
-- (void)presentMenu:(id)sender {
-    NSAttributedString *(^attributedTitle)(NSString *title) = ^NSAttributedString *(NSString *title) {
-        UIColor *textColor = [UIColor lightTextColor];
-        
-        return [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:textColor, NSFontAttributeName:[UIFont fontWithName:@"Copperplate" size:17.0f]}];
-    };
-    NSArray *styleItems =
-    @[
-      [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По рейтингу") image:nil action:^{
-          [SVProgressHUD show];
-          
-          self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
-          self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 142, 0, -5);
-          [self.titleButton setTitle:@"     По рейтингу      " forState:UIControlStateNormal];
-          
-          self.order = @"ranked";
-          [self.animeArray removeAllObjects];
-          pageInRequest = 0;
-          [self getAnimeCatalogFromServer];
-      }],
-      [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По популярности") image:nil action:^{
-          [SVProgressHUD show];
-          
-          self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
-          self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 176, 0, -5);
-          [self.titleButton setTitle:@"По популярности" forState:UIControlStateNormal];
-    
-          self.order = @"popularity";
-          [self.animeArray removeAllObjects];
-          pageInRequest = 0;
-          [self getAnimeCatalogFromServer];
-      }],
-      [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По дате выхода") image:nil action:^{
-          [SVProgressHUD show];
-          
-          self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
-          self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 170, 0, -5);
-          [self.titleButton setTitle:@"По дате выхода" forState:UIControlStateNormal];
-          
-          self.order = @"aired_on";
-          [self.animeArray removeAllObjects];
-          pageInRequest = 0;
-          [self getAnimeCatalogFromServer];
-      }],
-      ];
-    
-    [RWDropdownMenu presentFromViewController:self withItems:styleItems align:RWDropdownMenuCellAlignmentCenter style:0 navBarImage:nil completion:nil];
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-   [self.collectionView reloadData];
-}
-
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
     [self.collectionView reloadData];
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+   [self.collectionView reloadData];
 }
 
 #pragma mark - API Methods
@@ -166,28 +102,25 @@ static NSInteger pageInRequest = 0;
     [SVProgressHUD show];
     
     [[AAServerManager shareManager] getAnimeCatalog:pageInRequest = pageInRequest + 1
-                                           count:animeInRequest
+                                           limit:batchSize
                                            order:self.order
                                           status:self.status
                                        onSuccess:^(NSArray *anime) {
-                                           [self.animeArray addObjectsFromArray:anime];
-                                           self.addPaths = [NSMutableArray array];
+                                           [self.animes addObjectsFromArray:anime];
+                                           self.addCell = [NSMutableArray array];
                                            
-                                           for (int i = (int)[self.animeArray count] - (int)[anime count]; i < [self.animeArray count]; i++) {
-                                               [self.addPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+                                           for (int i = (int)[self.animes count] - (int)[anime count]; i < [self.animes count]; i++) {
+                                               [self.addCell addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                                            }
                                            
                                            self.loadingCell = NO;
                                            [self.collectionView reloadData];
                                            [SVProgressHUD dismiss];
-                                           [self.blurEffectView removeFromSuperview];
-                                           
                                        }
                                        onFailure:^(NSError *error, NSInteger statusCode) {
-                                           [self.blurEffectView removeFromSuperview];
                                            [SVProgressHUD dismiss];
                                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                                                                           message:@"Не удалось подключиться к серверу. Попробовать еще раз?"
+                                                                                           message:@"Не удалось получить данные. Попробовать еще раз?"
                                                                                           delegate:self
                                                                                  cancelButtonTitle:@"Нет"
                                                                                  otherButtonTitles:@"Да", nil];
@@ -201,9 +134,8 @@ static NSInteger pageInRequest = 0;
     return 1;
 }
 
-
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.animeArray count];
+    return [self.animes count];
 }
 
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -214,7 +146,7 @@ static NSInteger pageInRequest = 0;
         cell = [[AACatalogCollectionViewCell alloc] init];
     }
     
-    AAAnimeCatalog *anime = [self.animeArray objectAtIndex:indexPath.row];
+    AAAnimeCatalog *anime = [self.animes objectAtIndex:indexPath.row];
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://shikimori.org%@", anime.imageURL]]];
     __weak AACatalogCollectionViewCell* weakCell = cell;
     
@@ -237,16 +169,6 @@ static NSInteger pageInRequest = 0;
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 
-#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-
-#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
-#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
-#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
-
-#define IS_IPHONE_6P (SCREEN_MAX_LENGTH == 736.0)
-#define IS_IPAD_PRO (SCREEN_MAX_LENGTH == 1366)
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     float column = 0.0f;
     float section = 0.0f;
@@ -258,7 +180,7 @@ static NSInteger pageInRequest = 0;
                 section = 2.4f;
             } else {
                 column = 4.0f;
-                section = 3.4f;
+                section = 3.6f;
             }
         } else {
             if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
@@ -278,6 +200,14 @@ static NSInteger pageInRequest = 0;
                 column = 2.0f;
                 section = 2.5f;
             }
+        } else if (IS_IPHONE_4_OR_LESS) {
+            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+                column = 3.0f;
+                section = 1.4f;
+            } else {
+                column = 2.0f;
+                section = 2.1f;
+            }
         } else {
             if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
                 column = 4.0f;
@@ -289,13 +219,12 @@ static NSInteger pageInRequest = 0;
         }
     }
     
-    CGSize size = CGSizeMake ((self.collectionView.bounds.size.width / column) - (16), (self.collectionView.bounds.size.height / section) - (16));
-    return size;;
+    CGFloat width = (CGRectGetWidth(collectionView.bounds)-8*(column+1))/column;
+    CGFloat height = (CGRectGetHeight(collectionView.bounds)-8*(section+1))/section;
+    CGSize size = CGSizeMake (width, height);
+    return size;
 }
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(8, 8, 8, 8);
-}
 
 #pragma mark - UIScrollViewDelegate
 
@@ -303,7 +232,6 @@ static NSInteger pageInRequest = 0;
     
     if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - 20) {
         if (!self.loadingCell) {
-            [SVProgressHUD show];
             [self getAnimeCatalogFromServer];
             self.loadingCell = YES;
         }
@@ -316,7 +244,6 @@ static NSInteger pageInRequest = 0;
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     
     if([title isEqualToString:@"Да"]) {
-        pageInRequest = 0;
         [self getAnimeCatalogFromServer];
     }
 }
@@ -329,10 +256,70 @@ static NSInteger pageInRequest = 0;
     
     if ([[segue identifier] isEqualToString:@"profile"]) {
         
-        AAAnimeCatalog *anime = [self.animeArray objectAtIndex:indexPath.row];
+        AAAnimeCatalog *anime = [self.animes objectAtIndex:indexPath.row];
         AAAnimeProfileViewController *destination1 = [segue destinationViewController];
         destination1.animeID = anime.animeID;
     }
+}
+
+- (void)showSearchController {
+    UIViewController *searchVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
+    [self.navigationController pushViewController:searchVC animated:YES];
+}
+
+- (void)showMenu:(id)sender {
+    NSAttributedString *(^attributedTitle)(NSString *title) = ^NSAttributedString *(NSString *title) {
+        UIColor *textColor = [UIColor lightTextColor];
+        
+        return [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:textColor, NSFontAttributeName:[UIFont fontWithName:@"Copperplate" size:17.0f]}];
+    };
+    NSArray *styleItems =
+    @[
+      [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По рейтингу") image:nil action:^{
+          
+          self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
+          self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 142, 0, -5);
+          [self.titleButton setTitle:@"     По рейтингу      " forState:UIControlStateNormal];
+          
+          self.order = @"ranked";
+          [self.animes removeAllObjects];
+          pageInRequest = 0;
+          [self getAnimeCatalogFromServer];
+      }],
+      [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По популярности") image:nil action:^{
+          
+          self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
+          self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 176, 0, -5);
+          [self.titleButton setTitle:@"По популярности" forState:UIControlStateNormal];
+          
+          self.order = @"popularity";
+          [self.animes removeAllObjects];
+          pageInRequest = 0;
+          [self getAnimeCatalogFromServer];
+      }],
+      [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По дате выхода") image:nil action:^{
+          
+          self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
+          self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 170, 0, -5);
+          [self.titleButton setTitle:@"По дате выхода" forState:UIControlStateNormal];
+          
+          self.order = @"aired_on";
+          [self.animes removeAllObjects];
+          pageInRequest = 0;
+          [self getAnimeCatalogFromServer];
+      }],
+      ];
+    
+    [RWDropdownMenu presentFromViewController:self withItems:styleItems align:RWDropdownMenuCellAlignmentCenter style:0 navBarImage:nil completion:nil];
+}
+
+#pragma mark - Another Methods
+
+- (void) setCALayerForImage:(AACatalogCollectionViewCell *)cell {
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.layer.borderWidth = 1.0f;
+    cell.layer.borderColor = [UIColor grayColor].CGColor;
+    cell.layer.cornerRadius = 6.0f;
 }
 
 @end

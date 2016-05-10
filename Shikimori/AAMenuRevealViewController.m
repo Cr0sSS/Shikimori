@@ -34,6 +34,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UITableViewDataSource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {    
     return 2;
 }
@@ -70,6 +72,7 @@
     }
     
     NSString *text = nil;
+    
     if (indexPath.section == 0) {
         switch (indexPath.row)
         {

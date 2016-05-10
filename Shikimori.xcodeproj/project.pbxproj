@@ -56,7 +56,6 @@
 		8445119B1CB92DFD00B73A90 /* AAAnimeSimilarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8445119A1CB92DFD00B73A90 /* AAAnimeSimilarTableViewCell.m */; };
 		8445119E1CBBE09B00B73A90 /* AAAnimeProfileInformationViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8445119D1CBBE09B00B73A90 /* AAAnimeProfileInformationViewCell.m */; };
 		8453BE3B1CDB709100B03C9D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8453BE391CDB709100B03C9D /* LaunchScreen.storyboard */; };
-		847852741CD499DF00DBCDD3 /* Shikimori 2016-04-30 12:25.06.326.xcappdata in Resources */ = {isa = PBXBuildFile; fileRef = 847852731CD499DF00DBCDD3 /* Shikimori 2016-04-30 12:25.06.326.xcappdata */; };
 		84D90EE91CDA4910009CA3C7 /* Anime.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D90EE61CDA4910009CA3C7 /* Anime.m */; };
 		84D90EEA1CDA4910009CA3C7 /* Anime+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D90EE81CDA4910009CA3C7 /* Anime+CoreDataProperties.m */; };
 		84E75F5E1CC588750033D3E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84E75F5C1CC588750033D3E6 /* Main.storyboard */; };
@@ -69,6 +68,7 @@
 /* Begin PBXFileReference section */
 		1A9C0E421C13441D37FCB186 /* libPods-Shikimori.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Shikimori.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21EB78EB2A00CAD031B44631 /* Pods-Shikimori.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shikimori.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Shikimori/Pods-Shikimori.debug.xcconfig"; sourceTree = "<group>"; };
+		5CE1B9C51CE0B8CF00A4EC9E /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrefixHeader.pch; path = Shikimori/PrefixHeader.pch; sourceTree = "<group>"; };
 		841C98201CCD2F8B00186392 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		841C983B1CD228D800186392 /* AAMenuRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAMenuRevealViewController.h; sourceTree = "<group>"; };
 		841C983C1CD228D800186392 /* AAMenuRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAMenuRevealViewController.m; sourceTree = "<group>"; };
@@ -165,7 +165,7 @@
 		8445119C1CBBE09B00B73A90 /* AAAnimeProfileInformationViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAAnimeProfileInformationViewCell.h; sourceTree = "<group>"; };
 		8445119D1CBBE09B00B73A90 /* AAAnimeProfileInformationViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAAnimeProfileInformationViewCell.m; sourceTree = "<group>"; };
 		8453BE3A1CDB709100B03C9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		847852731CD499DF00DBCDD3 /* Shikimori 2016-04-30 12:25.06.326.xcappdata */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "Shikimori 2016-04-30 12:25.06.326.xcappdata"; sourceTree = "<group>"; };
+		847852731CD499DF00DBCDD3 /* ShikimoriData.xcappdata */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ShikimoriData.xcappdata; sourceTree = "<group>"; };
 		84D90EE51CDA4910009CA3C7 /* Anime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Anime.h; sourceTree = "<group>"; };
 		84D90EE61CDA4910009CA3C7 /* Anime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Anime.m; sourceTree = "<group>"; };
 		84D90EE71CDA4910009CA3C7 /* Anime+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Anime+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -274,7 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				841C98201CCD2F8B00186392 /* Podfile */,
-				84FAF6E81CC4BA9600C036B6 /* CoreData.xcdatamodeld */,
+				5CE1B9C51CE0B8CF00A4EC9E /* PrefixHeader.pch */,
 				844510E31CABF94E00B73A90 /* Shikimori */,
 				844510E21CABF94E00B73A90 /* Products */,
 				47750C6A9F82D54D08290C4E /* Pods */,
@@ -404,18 +404,18 @@
 				844511491CAC06B800B73A90 /* AACatalogCollectionViewController.m */,
 				844511501CAC1CA000B73A90 /* AAAnimeProfileViewController.h */,
 				844511511CAC1CA000B73A90 /* AAAnimeProfileViewController.m */,
-				841C983E1CD3637B00186392 /* AACalendarTableViewController.h */,
-				841C983F1CD3637B00186392 /* AACalendarTableViewController.m */,
-				841C983B1CD228D800186392 /* AAMenuRevealViewController.h */,
-				841C983C1CD228D800186392 /* AAMenuRevealViewController.m */,
 				844511531CAC36B400B73A90 /* AAAnimeVideoViewController.h */,
 				844511541CAC36B400B73A90 /* AAAnimeVideoViewController.m */,
 				8445118D1CB7F36700B73A90 /* AAAnimeSimilarTableViewController.h */,
 				8445118E1CB7F36700B73A90 /* AAAnimeSimilarTableViewController.m */,
 				844511961CB8EA5300B73A90 /* AAAnimeRelatedTableViewController.h */,
 				844511971CB8EA5300B73A90 /* AAAnimeRelatedTableViewController.m */,
+				841C983B1CD228D800186392 /* AAMenuRevealViewController.h */,
+				841C983C1CD228D800186392 /* AAMenuRevealViewController.m */,
 				84FAF6A81CC392C400C036B6 /* AAAnimeSearchTableViewController.h */,
 				84FAF6A91CC392C400C036B6 /* AAAnimeSearchTableViewController.m */,
+				841C983E1CD3637B00186392 /* AACalendarTableViewController.h */,
+				841C983F1CD3637B00186392 /* AACalendarTableViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -451,7 +451,7 @@
 		847852701CD495B800DBCDD3 /* Core Data Preload */ = {
 			isa = PBXGroup;
 			children = (
-				847852731CD499DF00DBCDD3 /* Shikimori 2016-04-30 12:25.06.326.xcappdata */,
+				847852731CD499DF00DBCDD3 /* ShikimoriData.xcappdata */,
 			);
 			name = "Core Data Preload";
 			sourceTree = "<group>";
@@ -472,6 +472,7 @@
 		847E8FC51CD5F53D00D8165A /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				84FAF6E81CC4BA9600C036B6 /* CoreData.xcdatamodeld */,
 				84FAF71A1CC529C600C036B6 /* AACoreDataManager.h */,
 				84FAF71B1CC529C600C036B6 /* AACoreDataManager.m */,
 				84D90EE51CDA4910009CA3C7 /* Anime.h */,
@@ -516,7 +517,6 @@
 				TargetAttributes = {
 					844510E01CABF94E00B73A90 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 5ZP5L939DW;
 					};
 				};
 			};
@@ -543,7 +543,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				847852741CD499DF00DBCDD3 /* Shikimori 2016-04-30 12:25.06.326.xcappdata in Resources */,
 				84E75F5E1CC588750033D3E6 /* Main.storyboard in Resources */,
 				844510F11CABF94E00B73A90 /* Assets.xcassets in Resources */,
 				8453BE3B1CDB709100B03C9D /* LaunchScreen.storyboard in Resources */,
@@ -698,7 +697,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Evgeny Nazarov (8376NZE3GX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Evgeny Nazarov (8376NZE3GX)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -743,7 +743,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Evgeny Nazarov (8376NZE3GX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Evgeny Nazarov (8376NZE3GX)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -770,6 +771,8 @@
 			baseConfigurationReference = 21EB78EB2A00CAD031B44631 /* Pods-Shikimori.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PREFIX_HEADER = $SOURCE_ROOT/Shikimori/PrefixHeader.pch;
 				INFOPLIST_FILE = Shikimori/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ArsenAvanesyan.Shikimori;
@@ -782,6 +785,8 @@
 			baseConfigurationReference = BBB7D02FC5BA50B20AC2FA17 /* Pods-Shikimori.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PREFIX_HEADER = $SOURCE_ROOT/Shikimori/PrefixHeader.pch;
 				INFOPLIST_FILE = Shikimori/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ArsenAvanesyan.Shikimori;
@@ -819,8 +824,7 @@
 				84FAF6E91CC4BA9600C036B6 /* CoreData.xcdatamodel */,
 			);
 			currentVersion = 84FAF6E91CC4BA9600C036B6 /* CoreData.xcdatamodel */;
-			name = CoreData.xcdatamodeld;
-			path = Shikimori/CoreData.xcdatamodeld;
+			path = CoreData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

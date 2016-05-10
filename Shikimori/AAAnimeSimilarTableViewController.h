@@ -11,9 +11,9 @@
 @interface AAAnimeSimilarTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSString *animeID;
-@property (strong, nonatomic) NSMutableArray *animeSimilarArray;
-@property (strong, nonatomic) NSMutableArray *animeSimilarProfileArray;
-@property (strong, nonatomic) NSMutableArray *genresStringArray;
+@property (strong, nonatomic) NSMutableArray *similar;
+@property (strong, nonatomic) NSMutableArray *similarProfile;
+@property (strong, nonatomic) NSMutableArray *genres;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

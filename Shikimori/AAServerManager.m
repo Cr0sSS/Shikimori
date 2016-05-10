@@ -11,15 +11,15 @@
 @interface AAServerManager()
 
 @property (strong, nonatomic) AFHTTPSessionManager *sessionManager;
-@property (strong, nonatomic) AAAnimeProfile *animeProfile;
-@property (strong, nonatomic) NSMutableArray *animeListArray;
-@property (strong, nonatomic) NSMutableArray *animeSimilarArray;
-@property (strong, nonatomic) NSMutableArray *animeRelatedArray;
-@property (strong, nonatomic) NSMutableArray *animeCalendarArray;
+@property (strong, nonatomic) AAAnimeProfile *profile;
+@property (strong, nonatomic) NSMutableArray *catalog;
+@property (strong, nonatomic) NSMutableArray *similar;
+@property (strong, nonatomic) NSMutableArray *related;
+@property (strong, nonatomic) NSMutableArray *calendar;
 
 @end
 
-NSUInteger maxSimilarAnimeCountInArray = 10;
+NSUInteger maxSimilarAnimeCountInArray = 6;
 
 @implementation AAServerManager
 
@@ -49,14 +49,14 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
 }
 
 - (void)getAnimeCatalog:(NSInteger) page
-                  count:(NSInteger) limit
+                  limit:(NSInteger) batchSize
                   order:(NSString*) order
                  status:(NSString*) status
               onSuccess:(void(^)(NSArray *anime)) success
               onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure {
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @(limit),           @"limit",
+                            @(batchSize),       @"limit",
                             @(page),            @"page",
                             order,              @"order",
                             status,             @"status",
@@ -67,17 +67,17 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                     progress:^(NSProgress * _Nonnull downloadProgress) {
                         
                     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                        self.animeListArray = [NSMutableArray array];
+                        self.catalog = [NSMutableArray array];
                         
                         for (NSDictionary *dict in responseObject) {
-                            AAAnimeCatalog *animeList = [[AAAnimeCatalog alloc] initWithServerResponce:dict];
-                            [self.animeListArray addObject:animeList];  
+                            AAAnimeCatalog *anime = [[AAAnimeCatalog alloc] initWithServerResponce:dict];
+                            [self.catalog addObject:anime];
                         }
                         
-                        [self.animeListArray removeLastObject];
+                        [self.catalog removeLastObject];
                         
                         if (success) {
-                            success(self.animeListArray);
+                            success(self.catalog);
                         }
                         
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -101,10 +101,10 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         
                     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                         
-                        self.animeProfile = [[AAAnimeProfile alloc] initWithServerResponce:responseObject];
+                        self.profile = [[AAAnimeProfile alloc] initWithServerResponce:responseObject];
                         
                         if (success) {
-                            success(self.animeProfile);
+                            success(self.profile);
                         }
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
@@ -126,17 +126,17 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         
                     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                         
-                        self.animeSimilarArray = [NSMutableArray array];
+                        self.similar = [NSMutableArray array];
                         
                         for (NSDictionary *dict in responseObject) {
                             AAAnimeSimilar *animeSimilar = [[AAAnimeSimilar alloc] initWithServerResponce:dict];
-                            if ([self.animeSimilarArray count] < maxSimilarAnimeCountInArray) {
-                                [self.animeSimilarArray addObject:animeSimilar];
+                            if ([self.similar count] < maxSimilarAnimeCountInArray) {
+                                [self.similar addObject:animeSimilar];
                             }
                         }
                         
                         if (success) {
-                            success(self.animeSimilarArray);
+                            success(self.similar);
                         }
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
@@ -158,18 +158,18 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                         
                     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                         
-                        self.animeRelatedArray = [NSMutableArray array];
+                        self.related = [NSMutableArray array];
                         
                         for (NSDictionary *dict in responseObject) {
                             if (![[dict objectForKey:@"anime"] isEqual:[NSNull null]]) {
                                 AAAnimeRelated *animeRelated = [[AAAnimeRelated alloc] initWithServerResponce:dict];
                                 
-                                [self.animeRelatedArray addObject:animeRelated];
+                                [self.related addObject:animeRelated];
                             }
                         }
                         
                         if (success) {
-                            success(self.animeRelatedArray);
+                            success(self.related);
                         }
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {
@@ -186,14 +186,14 @@ NSUInteger maxSimilarAnimeCountInArray = 10;
                     progress:^(NSProgress * _Nonnull downloadProgress) {
                         
                     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                        self.animeCalendarArray = [NSMutableArray array];
+                        self.calendar = [NSMutableArray array];
                         for (NSDictionary *dict in responseObject) {
                             AAAnimeCalendar *animeCalendar = [[AAAnimeCalendar alloc] initWithServerResponce:dict];
-                            [self.animeCalendarArray addObject:animeCalendar];
+                            [self.calendar addObject:animeCalendar];
                         }
                         
                         if (success) {
-                            success(self.animeCalendarArray);
+                            success(self.calendar);
                         }
                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (failure) {

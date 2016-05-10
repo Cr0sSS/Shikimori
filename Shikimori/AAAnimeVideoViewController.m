@@ -14,8 +14,8 @@
 @interface AAAnimeVideoViewController ()
 
 @property (strong, nonatomic) NSString *sourceURL;
-@property (strong, nonatomic) NSMutableArray *videoVariantArray;
-@property (strong, nonatomic) NSMutableArray *videoResourceURLArray;
+@property (strong, nonatomic) NSMutableArray *videoOptions;
+@property (strong, nonatomic) NSMutableArray *videoResourceURLs;
 @property (strong, nonatomic) AAAnimeVideo *videoURL;
 
 @end
@@ -25,10 +25,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.tableView.rowHeight = 56;
+    } else {
+        self.tableView.rowHeight = 34;
+    }
+
     self.webView.scrollView.scrollEnabled = NO;
     self.webView.scrollView.bounces = NO;
-    self.videoVariantArray = [NSMutableArray array];
-    self.videoResourceURLArray = [NSMutableArray array];
+    self.videoOptions = [NSMutableArray array];
+    self.videoResourceURLs = [NSMutableArray array];
     self.sourceURL = [NSString stringWithFormat:@"http://play.shikimori.org/animes/%@/video_online", self.animeID];
     
     [self parseVideoEpisode];
@@ -71,18 +77,18 @@
         NSArray *videoURLNodes2 = [parser searchWithXPathQuery:videoURLXpathQueryString2];
         
         for (TFHppleElement *element in videoURLNodes1) {
-            AAAnimeVideo *videoVariant = [[AAAnimeVideo alloc] init];
-            [self.videoVariantArray addObject:videoVariant];
-            videoVariant.videoVariant = [element objectForKey:@"href"];
+            AAAnimeVideo *video = [[AAAnimeVideo alloc] init];
+            [self.videoOptions addObject:video];
+            video.videoOption = [element objectForKey:@"href"];
         }
         
         for (TFHppleElement *element in videoURLNodes2) {
-            AAAnimeVideo *videoVariant = [[AAAnimeVideo alloc] init];
-            [self.videoVariantArray addObject:videoVariant];
-            videoVariant.videoVariant = [element objectForKey:@"href"];
+            AAAnimeVideo *video = [[AAAnimeVideo alloc] init];
+            [self.videoOptions addObject:video];
+            video.videoOption = [element objectForKey:@"href"];
         }
         
-        if ([self.videoVariantArray count] == 0) {
+        if ([self.videoOptions count] == 0) {
             
             self.sourceURL = [NSString stringWithFormat:@"http://play.shikimori.org/animes/z%@/video_online", self.animeID];
             
@@ -98,15 +104,15 @@
             NSArray *videoURLNodes2 = [parser searchWithXPathQuery:videoURLXpathQueryString2];
             
             for (TFHppleElement *element in videoURLNodes1) {
-                AAAnimeVideo *videoVariant = [[AAAnimeVideo alloc] init];
-                [self.videoVariantArray addObject:videoVariant];
-                videoVariant.videoVariant = [element objectForKey:@"href"];
+                AAAnimeVideo *video = [[AAAnimeVideo alloc] init];
+                [self.videoOptions addObject:video];
+                video.videoOption = [element objectForKey:@"href"];
             }
             
             for (TFHppleElement *element in videoURLNodes2) {
-                AAAnimeVideo *videoVariant = [[AAAnimeVideo alloc] init];
-                [self.videoVariantArray addObject:videoVariant];
-                videoVariant.videoVariant = [element objectForKey:@"href"];
+                AAAnimeVideo *video= [[AAAnimeVideo alloc] init];
+                [self.videoOptions addObject:video];
+                video.videoOption = [element objectForKey:@"href"];
             }
         }
         
@@ -133,7 +139,7 @@
         
         for (TFHppleElement *element in videoResourceURLNodes) {
             self.videoURL = [[AAAnimeVideo alloc] init];
-            [self.videoResourceURLArray addObject:self.videoURL];
+            [self.videoResourceURLs addObject:self.videoURL];
             self.videoURL.videoResourceURL = [element objectForKey:@"src"];
             
             NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"http:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
@@ -153,7 +159,7 @@
             
             for (TFHppleElement *element in videoResourceURLNodes) {
                 self.videoURL = [[AAAnimeVideo alloc] init];
-                [self.videoResourceURLArray addObject:self.videoURL];
+                [self.videoResourceURLs addObject:self.videoURL];
                 self.videoURL.videoResourceURL = [element objectForKey:@"src"];
                 NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"http:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
                 [self.webView loadHTMLString:htmlString baseURL:nil];
@@ -172,7 +178,7 @@
             
             for (TFHppleElement *element in videoResourceURLNodes) {
                 self.videoURL = [[AAAnimeVideo alloc] init];
-                [self.videoResourceURLArray addObject:self.videoURL];
+                [self.videoResourceURLs addObject:self.videoURL];
                 self.videoURL.videoResourceURL = [element objectForKey:@"src"];
                 
                 NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"http:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
@@ -204,7 +210,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return [self.videoVariantArray count];
+    return [self.videoOptions count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -223,7 +229,7 @@
         cell.textLabel.font  = myFont;
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%d серия", indexPath.row + 1];
+    cell.textLabel.text = [NSString stringWithFormat:@"%ld серия", indexPath.row + 1];
     
     return cell;
 }
@@ -239,15 +245,14 @@
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.activityIndicator startAnimating];
-    AAAnimeVideo *videoVariant = [self.videoVariantArray objectAtIndex:indexPath.row];
-    self.sourceURL = videoVariant.videoVariant;
-    [self.videoResourceURLArray removeAllObjects];
+    AAAnimeVideo *video = [self.videoOptions objectAtIndex:indexPath.row];
+    self.sourceURL = video.videoOption;
+    [self.videoResourceURLs removeAllObjects];
     [self parseVideoURL];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UILabel *myLabel = [[UILabel alloc] init];
-
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         myLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 24);
@@ -264,14 +269,6 @@
     [headerView addSubview:myLabel];
     
     return headerView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return 56;
-    } else {
-        return 34;
-    }
 }
 
 

@@ -19,7 +19,7 @@
 +(AAServerManager*) shareManager;
 
 - (void)getAnimeCatalog:(NSInteger) page
-                count:(NSInteger) limit
+                limit:(NSInteger) batchSize
                 order:(NSString*) order
                status:(NSString*) status
             onSuccess:(void(^)(NSArray *anime)) success

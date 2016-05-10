@@ -10,7 +10,7 @@
 
 @interface AAAnimeVideo : NSObject
 
-@property (strong, nonatomic) NSString *videoVariant;
+@property (strong, nonatomic) NSString *videoOption;
 @property (strong, nonatomic) NSString *videoResourceURL;
 
 @end

@@ -24,19 +24,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    UIVisualEffectView* blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
-    [blurEffectView setFrame:self.view.frame];
-    [self.view addSubview:blurEffectView];
-    
     [SVProgressHUD show];
     
-    self.placeholder = [UIImage imageNamed:@"imageholder"];
-        
-    self.searchBar.returnKeyType = UIReturnKeyDone;
+    self.tableView.tableFooterView = [UIView new];
     
-    [self.searchBar setValue:@"Отмена" forKey:@"_cancelButtonText"];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.tableView.rowHeight = 240;
+    } else {
+        self.tableView.rowHeight = 120;
+    }
+    
+    self.placeholder = [UIImage imageNamed:@"imageholder"];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
                    ^{
@@ -44,16 +42,13 @@
                        dispatch_async(dispatch_get_main_queue(),
                                       ^{
                                           [self.tableView reloadData];
-                                          [blurEffectView removeFromSuperview];
                                           [SVProgressHUD dismiss];
-
                                       });
                    });
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
 
 - (NSManagedObjectContext*) managedObjectContext {
@@ -162,19 +157,8 @@
     return [self.fetchedResultsController sectionIndexTitles];
 }
 
-- (NSString *)sectionIndexTitleForSectionName:(NSString *)sectionName {
-
+- (NSString *)controller:(NSFetchedResultsController *)controller sectionIndexTitleForSectionName:(NSString *)sectionName {
     return sectionName;
-}
-
-#pragma mark - UITableViewDelegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return 240;
-    } else {
-        return 120;
-    }
 }
 
 #pragma mark - Fetched results controller
@@ -204,7 +188,6 @@
                                                                                                 managedObjectContext:self.managedObjectContext
                                                                                                   sectionNameKeyPath:@"firstLetterForSection"
                                                                                                            cacheName:nil];
-    
     self.fetchedResultsController.delegate = self;
     
     NSError *error = nil;
@@ -272,15 +255,6 @@
         Anime *anime = [self.fetchedResultsController objectAtIndexPath:indexPath];
         AAAnimeProfileViewController *destination1 = [segue destinationViewController];
         destination1.animeID = anime.animeID;
-    }
-}
-
-- (void)searchDisplayControllerWillBeginSearch:(UISearchController *)controller
-{
-    for (UIView *subView in self.searchBar.subviews){
-        if([subView isKindOfClass:[UIButton class]]){
-            [(UIButton*)subView setTitle:@"Done" forState:UIControlStateNormal];
-        }
     }
 }
 

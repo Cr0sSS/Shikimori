@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AACalendarTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
+@interface AACalendarTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @end

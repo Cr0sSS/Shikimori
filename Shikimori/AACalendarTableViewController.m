@@ -16,13 +16,13 @@
 
 @interface AACalendarTableViewController ()
 
-@property (strong, nonatomic) NSMutableArray *animeArray;
+@property (strong, nonatomic) NSMutableArray *animes;
 @property (strong, nonatomic) AAAnimeCalendar *animeCalendar;
 @property (strong, nonatomic) UIImage *placeholder;
 @property (strong, nonatomic) NSString *sectionName;
-@property (strong, nonatomic) NSSet *uniqueDateNextEpisodeAtSet;
-@property (strong, nonatomic) NSMutableArray *rowsInSectionArray;
-@property (strong, nonatomic) NSArray *titleForHeaderInSectionArray;
+@property (strong, nonatomic) NSSet *uniqueDateNextEpisodeAt;
+@property (strong, nonatomic) NSMutableArray *rowsInSection;
+@property (strong, nonatomic) NSArray *titlesForHeaderInSection;
 
 @end
 
@@ -47,23 +47,19 @@
     [searchButtonItem setTintColor:[UIColor whiteColor]];
     
     self.placeholder = [UIImage imageNamed:@"imageholder"];
+
+    self.tableView.tableFooterView = [UIView new];
     
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.tableView.rowHeight = 240;
+    } else {
+        self.tableView.rowHeight = 120;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)showSearchController {
-    UIViewController *searchVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
-    [self.navigationController pushViewController:searchVC animated:YES];
-}
-
-- (void) setCALayerForImage:(AAAnimeCalendarViewCell *)cell {
-    CALayer *cellImageLayer = cell.calendarAnimeImageView.layer;
-    [cellImageLayer setCornerRadius:4];
-    [cellImageLayer setMasksToBounds:YES];
 }
 
 #pragma mark - API Methods
@@ -73,36 +69,40 @@
     [SVProgressHUD show];
     
     [[AAServerManager shareManager] getAnimeOngoingCalendar:^(NSArray *animeCalendar) {
-        self.animeArray = [NSMutableArray array];
-        [self.animeArray addObjectsFromArray:animeCalendar];
+        self.animes = [NSMutableArray array];
+        [self.animes addObjectsFromArray:animeCalendar];
         
-        NSArray *nextEpisodeAtArray = [self.animeArray valueForKey:@"nextEpisodeAt"];
+        NSArray *nextEpisodeAtArray = [self.animes valueForKey:@"nextEpisodeAt"];
         NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithArray:nextEpisodeAtArray];
-        self.uniqueDateNextEpisodeAtSet = [orderedSet set];
+        self.uniqueDateNextEpisodeAt = [orderedSet set];
         
         [self.tableView reloadData];
-        //[blurEffectView removeFromSuperview];
         [SVProgressHUD dismiss];
     } onFailure:^(NSError *error, NSInteger statusCode) {
-        //[blurEffectView removeFromSuperview];
         [SVProgressHUD dismiss];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
+                                                        message:@"Не удалось получить данные. Попробовать еще раз?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Нет"
+                                              otherButtonTitles:@"Да", nil];
+        [alert show];
     }];
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [self.uniqueDateNextEpisodeAtSet count];
+    return [self.uniqueDateNextEpisodeAt count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    self.rowsInSectionArray = [NSMutableArray array];
-    for (AAAnimeCalendar *anime in self.animeArray) {
-        if ([anime.nextEpisodeAt isEqualToString:[self.titleForHeaderInSectionArray objectAtIndex:section]]) {
-            [self.rowsInSectionArray addObject:anime];
+    self.rowsInSection = [NSMutableArray array];
+    for (AAAnimeCalendar *anime in self.animes) {
+        if ([anime.nextEpisodeAt isEqualToString:[self.titlesForHeaderInSection objectAtIndex:section]]) {
+            [self.rowsInSection addObject:anime];
         }
     }
-    return [self.rowsInSectionArray count];
+    return [self.rowsInSection count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -113,14 +113,14 @@
         cell = [[AAAnimeCalendarViewCell alloc] init];
     }
     
-    self.rowsInSectionArray = [NSMutableArray array];
-    for (AAAnimeCalendar *anime in self.animeArray) {
-        if ([anime.nextEpisodeAt isEqualToString:[self.titleForHeaderInSectionArray objectAtIndex:indexPath.section]]) {
-            [self.rowsInSectionArray addObject:anime];
+    self.rowsInSection = [NSMutableArray array];
+    for (AAAnimeCalendar *anime in self.animes) {
+        if ([anime.nextEpisodeAt isEqualToString:[self.titlesForHeaderInSection objectAtIndex:indexPath.section]]) {
+            [self.rowsInSection addObject:anime];
         }
     }
     
-    self.animeCalendar = [self.rowsInSectionArray objectAtIndex:indexPath.row];
+    self.animeCalendar = [self.rowsInSection objectAtIndex:indexPath.row];
     
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://shikimori.org%@", self.animeCalendar.imageURL]]];
     
@@ -148,19 +148,21 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    self.titleForHeaderInSectionArray = [self.uniqueDateNextEpisodeAtSet allObjects];
-    return [self.titleForHeaderInSectionArray objectAtIndex:section];
+    self.titlesForHeaderInSection = [self.uniqueDateNextEpisodeAt allObjects];
+    return [self.titlesForHeaderInSection objectAtIndex:section];
 }
 
-#pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return 240;
-    } else {
-        return 120;
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    
+    if ([title isEqualToString:@"Да"]) {
+        [self getAnimeCalendarFromServer];
     }
 }
+
 
 #pragma mark - Navigation Methods
 
@@ -170,17 +172,30 @@
     
     if ([[segue identifier] isEqualToString:@"ShowAnimeProfile"]) {
         
-        self.rowsInSectionArray = [NSMutableArray array];
-        for (AAAnimeCalendar *anime in self.animeArray) {
-            if ([anime.nextEpisodeAt isEqualToString:[self.titleForHeaderInSectionArray objectAtIndex:indexPath.section]]) {
-                [self.rowsInSectionArray addObject:anime];
+        self.rowsInSection = [NSMutableArray array];
+        for (AAAnimeCalendar *anime in self.animes) {
+            if ([anime.nextEpisodeAt isEqualToString:[self.titlesForHeaderInSection objectAtIndex:indexPath.section]]) {
+                [self.rowsInSection addObject:anime];
             }
         }
         
-        AAAnimeProfile *anime = [self.rowsInSectionArray objectAtIndex:indexPath.row];
+        AAAnimeProfile *anime = [self.rowsInSection objectAtIndex:indexPath.row];
         AAAnimeProfileViewController *destination1 = [segue destinationViewController];
         destination1.animeID = anime.animeID;
     }
+}
+
+- (void)showSearchController {
+    UIViewController *searchVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
+    [self.navigationController pushViewController:searchVC animated:YES];
+}
+
+#pragma mark - Another Methods
+
+- (void) setCALayerForImage:(AAAnimeCalendarViewCell *)cell {
+    CALayer *cellImageLayer = cell.calendarAnimeImageView.layer;
+    [cellImageLayer setCornerRadius:4];
+    [cellImageLayer setMasksToBounds:YES];
 }
 
 @end

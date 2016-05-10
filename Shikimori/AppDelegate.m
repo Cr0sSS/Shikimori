@@ -18,9 +18,10 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *frontViewController = [storyboard instantiateViewControllerWithIdentifier:@"CollectionViewController"];
@@ -35,6 +36,7 @@
     self.viewController = revealController;
     
     self.window.rootViewController = self.viewController;
+    [self.window makeKeyAndVisible];
     
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                                                            [UIColor whiteColor], NSForegroundColorAttributeName,
@@ -42,6 +44,13 @@
     
     [UINavigationBar appearance].tintColor = [UIColor whiteColor];
 
+    
+    UITextField *lagFreeField = [[UITextField alloc] init];
+    [self.window addSubview:lagFreeField];
+    [lagFreeField becomeFirstResponder];
+    [lagFreeField resignFirstResponder];
+    [lagFreeField removeFromSuperview];
+    
     return YES;
 }
 
