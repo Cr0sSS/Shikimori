@@ -25,7 +25,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    self.tableView.tableFooterView = [UIView new];
+    
+    if (IS_IPAD) {
         self.tableView.rowHeight = 56;
     } else {
         self.tableView.rowHeight = 34;
@@ -58,7 +60,7 @@
     [preloadView setFrame:self.view.frame];
     [self.view addSubview:preloadView];
     
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         
         [self.activityIndicator startAnimating];
@@ -126,7 +128,7 @@
 
 
 - (void) parseVideoURL {
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         
         NSData *sourceHTMLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.sourceURL]];
@@ -254,7 +256,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UILabel *myLabel = [[UILabel alloc] init];
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         myLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 24);
         myLabel.font = [UIFont fontWithName:@"Copperplate" size:22.0];
     } else {

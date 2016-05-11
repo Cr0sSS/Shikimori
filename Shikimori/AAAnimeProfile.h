@@ -12,13 +12,14 @@
 
 @property (strong, nonatomic) NSString *animeID;
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSDictionary *imageDict;
+@property (strong, nonatomic) NSDictionary *images;
 @property (strong, nonatomic) NSString *imageURL;
 @property (strong, nonatomic) NSString *kind;
 @property (strong, nonatomic) NSString *episodes;
 @property (strong, nonatomic) NSString *duration;
 @property (strong, nonatomic) NSString *status;
-@property (strong, nonatomic) NSArray *genresArray;
+@property (strong, nonatomic) NSArray *genres;
+@property (strong, nonatomic) NSString *genre;
 @property (strong, nonatomic) NSString *genresRussian;
 @property (strong, nonatomic) NSString *score;
 @property (strong, nonatomic) NSString *airedOn;
@@ -27,9 +28,6 @@
 @property (strong, nonatomic) NSString *episodesAired;
 @property (strong, nonatomic) NSString *russian;
 
-- (id)initWithServerResponce:(NSDictionary*) responseObject;
-- (void) convertDateAiredOn;
--(void) convertDateReleasedOn;
-
+-(id)initWithServerResponce:(NSDictionary*) responseObject;
 
 @end

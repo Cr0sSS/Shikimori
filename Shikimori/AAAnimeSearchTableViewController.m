@@ -23,8 +23,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [SVProgressHUD show];
+    
+    [self filter:@""];
     
     self.tableView.tableFooterView = [UIView new];
     
@@ -35,20 +36,15 @@
     }
     
     self.placeholder = [UIImage imageNamed:@"imageholder"];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                   ^{
-                       [self filter:@""];
-                       dispatch_async(dispatch_get_main_queue(),
-                                      ^{
-                                          [self.tableView reloadData];
-                                          [SVProgressHUD dismiss];
-                                      });
-                   });
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    [SVProgressHUD dismiss];
 }
 
 - (NSManagedObjectContext*) managedObjectContext {
@@ -70,7 +66,7 @@
     
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (AAAnimeSearchTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *identifier = @"Cell";
     
@@ -98,13 +94,14 @@
     
     Anime *anime = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
+    cell.searchAnimeNameLabel.textColor = [UIColor colorWithRed:25/255.0 green:181/255.0 blue:254/255.0 alpha:1];
+    
     if ([anime.russianName isEqual:[NSNull null]] || anime.russianName == nil) {
         cell.searchAnimeNameLabel.text = [NSString stringWithFormat:@"%@", anime.englishName];
     } else {
         cell.searchAnimeNameLabel.text = [NSString stringWithFormat:@"%@ / %@", anime.russianName, anime.englishName];
     }
     
-    cell.searchAnimeNameLabel.textColor = [UIColor colorWithRed:25/255.0 green:181/255.0 blue:254/255.0 alpha:1];
     
     if ([anime.episodes isEqual:[NSNull null]] || [anime.episodes intValue] == 0) {
         cell.searchAnimeEpisodesLabel.text = [NSString stringWithFormat:@"Эпизоды: %@ / ?", anime.episodes_aired];
@@ -164,38 +161,45 @@
 #pragma mark - Fetched results controller
 
 - (NSFetchedResultsController*)filter:(NSString*)text {
-
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Anime" inManagedObjectContext:self.managedObjectContext];
-    
-    [fetchRequest setEntity:entity];
-    
-    [fetchRequest setFetchBatchSize:50];
-    
-    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"firstLetterForSection" ascending:YES];
-    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"russianName" ascending:YES];
-    
-    [fetchRequest setSortDescriptors:@[sortDescriptor1, sortDescriptor2]];
-    
-    if(text.length) {
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(russianName CONTAINS[c] %@) OR (englishName CONTAINS[c] %@)", text, text];
-        [fetchRequest setPredicate:predicate];
-    }
-    
-    self.fetchedResultsController  = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                                                managedObjectContext:self.managedObjectContext
-                                                                                                  sectionNameKeyPath:@"firstLetterForSection"
-                                                                                                           cacheName:nil];
-    self.fetchedResultsController.delegate = self;
-    
-    NSError *error = nil;
-    
-    if (![self.fetchedResultsController performFetch:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+                   ^{
+                       NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+                       
+                       NSEntityDescription *entity = [NSEntityDescription entityForName:@"Anime" inManagedObjectContext:self.managedObjectContext];
+                       
+                       [fetchRequest setEntity:entity];
+                       
+                       [fetchRequest setFetchBatchSize:50];
+                       
+                       NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"firstLetterForSection" ascending:YES];
+                       NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"russianName" ascending:YES];
+                       
+                       [fetchRequest setSortDescriptors:@[sortDescriptor1, sortDescriptor2]];
+                       
+                       if(text.length) {
+                           
+                           NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(russianName CONTAINS[c] %@) OR (englishName CONTAINS[c] %@)", text, text];
+                           [fetchRequest setPredicate:predicate];
+                       }
+                       
+                       self.fetchedResultsController  = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                                            managedObjectContext:self.managedObjectContext
+                                                                                              sectionNameKeyPath:@"firstLetterForSection"
+                                                                                                       cacheName:nil];
+                       self.fetchedResultsController.delegate = self;
+                       
+                       NSError *error = nil;
+                       
+                       if (![self.fetchedResultsController performFetch:&error]) {
+                           NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                           abort();
+                       }
+                       dispatch_async(dispatch_get_main_queue(),
+                                      ^{
+                                          [self.tableView reloadData];
+                                      });
+                   });
     
     return _fetchedResultsController;
 }
@@ -210,25 +214,14 @@
     [searchBar resignFirstResponder];
     [searchBar setShowsCancelButton:NO animated:YES];
     searchBar.text = @"";
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                   ^{
-                       [self filter:@""];
-                       dispatch_async(dispatch_get_main_queue(),
-                                      ^{
-                                          [self.tableView reloadData];
-                                      });
-                   });
+    [self filter:@""];
+    
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                   ^{
-                       [self filter:searchText];
-                       dispatch_async(dispatch_get_main_queue(),
-                                      ^{
-                                          [self.tableView reloadData];
-                                      });
-                   });
+    
+    [self filter:searchText];
+    
     if (searchText.length == 0) {
         [searchBar resignFirstResponder];
         [searchBar setShowsCancelButton:NO animated:YES];

@@ -34,7 +34,7 @@
     [self getAnimeProfileFromServer];
     
     self.descriptionTextLabel = [[UILabel alloc] init];
-    self.descriptionTextLabel.numberOfLines = 0;
+
     [self.scrollView addSubview:self.descriptionTextLabel];
     if (IS_IPHONE) {
         self.descriptionTextLabel.font = [UIFont fontWithName:@"Copperplate" size:10.0];
@@ -122,7 +122,7 @@
     return @"Информация";
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (AAAnimeProfileInformationViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString * const reuseIdentifier = @"Cell";
     AAAnimeProfileInformationViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     
@@ -146,17 +146,7 @@
             cell.customDetailTextLabel.text = [NSString stringWithFormat:@"%@", self.animeProfile.releasedOn];
         }
         else if (indexPath.row == 5) {
-            
-            self.genres = [NSMutableArray array];
-            
-            for (NSDictionary *genres in self.animeProfile.genresArray) {
-                self.animeProfile.genresRussian = genres[@"russian"];
-                [self.genres addObject:self.animeProfile.genresRussian];
-            }
-            
-            NSString *genresString = [self.genres componentsJoinedByString:@", "];
-            
-            cell.customDetailTextLabel.text = [NSString stringWithFormat:@"%@", genresString];
+            cell.customDetailTextLabel.text = self.animeProfile.genre;
             cell.customDetailTextLabel.numberOfLines = 0;
         }
     }
@@ -270,6 +260,7 @@
     self.animeScoreTextLabel.text = self.animeProfile.score;
     self.animeNameTextLabel.text = self.animeProfile.russian;
     self.descriptionTextLabel.text = self.animeProfile.descriptionAnime;
+    self.descriptionTextLabel.numberOfLines = 0;
     
     [self getScrollViewHeight];
 }
@@ -278,7 +269,7 @@
     
     if (IS_IPHONE) {
         
-        [self.descriptionTextLabel setFrame:CGRectMake(16, 353, self.view.frame.size.width - 32, 0)];
+        [self.descriptionTextLabel setFrame:CGRectMake(16, self.descriptionHeaderTextLabel.frame.origin.y + self.descriptionHeaderTextLabel.frame.size.height +8, self.view.frame.size.width - 32, 0)];
         
         CGSize constraint = CGSizeMake(self.descriptionTextLabel.frame.size.width, 0);
         CGSize size;
@@ -291,13 +282,13 @@
         
         size = CGSizeMake(ceil(boundingBox.width), ceil(boundingBox.height));
         
-        [self.descriptionTextLabel setFrame:CGRectMake(16, 353, self.view.frame.size.width - 32, size.height)];
+        [self.descriptionTextLabel setFrame:CGRectMake(16, self.descriptionHeaderTextLabel.frame.origin.y + self.descriptionHeaderTextLabel.frame.size.height +8, self.view.frame.size.width - 32, size.height)];
         
-        [self.scrollView setContentSize:CGSizeMake(self.view.frame.size.width - 16, 353 + size.height + 16)];
+        [self.scrollView setContentSize:CGSizeMake(self.view.frame.size.width - 16, self.descriptionHeaderTextLabel.frame.origin.y + self.descriptionHeaderTextLabel.frame.size.height +8 + size.height + 16)];
         
     } else {
         
-        [self.descriptionTextLabel setFrame:CGRectMake(32, 687, self.view.frame.size.width - 64, 0)];
+        [self.descriptionTextLabel setFrame:CGRectMake(32, self.descriptionHeaderTextLabel.frame.origin.y + self.descriptionHeaderTextLabel.frame.size.height +16, self.view.frame.size.width - 64, 0)];
         
         CGSize constraint = CGSizeMake(self.descriptionTextLabel.frame.size.width, 0);
         CGSize size;
@@ -310,9 +301,9 @@
         
         size = CGSizeMake(ceil(boundingBox.width), ceil(boundingBox.height));
         
-        [self.descriptionTextLabel setFrame:CGRectMake(32, 687, self.view.frame.size.width - 64, size.height)];
+        [self.descriptionTextLabel setFrame:CGRectMake(32, self.descriptionHeaderTextLabel.frame.origin.y + self.descriptionHeaderTextLabel.frame.size.height +16, self.view.frame.size.width - 64, size.height)];
         
-        [self.scrollView setContentSize:CGSizeMake(self.view.frame.size.width - 32, 687 + size.height + 32)];
+        [self.scrollView setContentSize:CGSizeMake(self.view.frame.size.width - 32, self.descriptionHeaderTextLabel.frame.origin.y + self.descriptionHeaderTextLabel.frame.size.height +16 + size.height + 32)];
     }
 }
 

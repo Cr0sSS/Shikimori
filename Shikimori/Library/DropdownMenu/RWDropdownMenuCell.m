@@ -17,7 +17,6 @@
     {
         self.textLabel = [UILabel new];
         self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//        self.textLabel.font = [UIFont fontWithName:@"Copperplate" size:15];
         self.textLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.textLabel];
         self.imageView = [UIImageView new];

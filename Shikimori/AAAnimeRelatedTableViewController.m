@@ -15,7 +15,6 @@
 
 @interface AAAnimeRelatedTableViewController ()
 
-@property (strong, nonatomic) NSString *genre;
 @property (strong, nonatomic) UIImage *placeholder;
 @property (strong, nonatomic) AAAnimeProfile *animeProfile;
 
@@ -32,7 +31,7 @@
     self.relatedProfile = [NSMutableArray array];
     self.genres = [NSMutableArray array];
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         self.tableView.rowHeight = 240;
     } else {
         self.tableView.rowHeight = 120;
@@ -49,6 +48,21 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) convertDate:(AAAnimeRelatedTableViewCell *)cell {
+    if (!([self.animeProfile.status isEqualToString:@"anons"] && self.animeProfile.airedOn != 0)) {
+        NSString *dateString = self.animeProfile.airedOn;
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"dd-MM-yyyy"];
+        NSDate *dateFromString = [[NSDate alloc] init];
+        dateFromString = [dateFormatter dateFromString:dateString];
+        [dateFormatter setDateFormat:@"yyyy"];
+        NSString *stringDate = [dateFormatter stringFromDate:dateFromString];
+        cell.relatedAnimeYearLabel.text = stringDate;
+    } else {
+        cell.relatedAnimeYearLabel.text = self.animeProfile.airedOn;
+    }
+}
+
 #pragma mark - API Methods
 
 - (void) getAnimeRelatedFromServer {
@@ -60,6 +74,7 @@
                                               [self.related addObjectsFromArray:animeRelated];
                                               if ([self.related count] == 0) {
                                                   [SVProgressHUD dismiss];
+                                                  return YES;
                                               }
                                               
                                               dispatch_queue_t queue = dispatch_queue_create("com.shiki.related", DISPATCH_QUEUE_CONCURRENT);
@@ -86,7 +101,7 @@
                                                   });
                                                   
                                               });
-
+                                              return YES;
                                           }
                                           onFailure:^(NSError *error, NSInteger statusCode) {
                                               [SVProgressHUD dismiss];
@@ -105,7 +120,7 @@
     return [self.relatedProfile count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (AAAnimeRelatedTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString * const reuseIdentifier = @"Cell";
     AAAnimeRelatedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     
@@ -130,17 +145,19 @@
          NSLog(@"%@", error);
      }];
     
-    [self parseAnimeGenres];
     [self convertDate:cell];
-    [self setCALayerForImage:cell];
     
     cell.relatedAnimeNameLabel.text = [NSString stringWithFormat:@"%@", self.animeProfile.russian];
     cell.relatedAnimeTypeLabel.text = [NSString stringWithFormat:@"%@", self.animeProfile.kind];
     cell.relatedAnimeEpisodesLabel.text = [NSString stringWithFormat:@"Эпизоды: %@", self.animeProfile.episodes];
-    cell.relatedAnimeGenresLabel.text = [NSString stringWithFormat:@"%@", self.genre];
+    cell.relatedAnimeGenresLabel.text = [NSString stringWithFormat:@"%@", self.animeProfile.genre];
     cell.relatedAnimeRelationLabel.text = [NSString stringWithFormat:@"%@", animeRelated.relationRussian];
     
     cell.relatedAnimeNameLabel.textColor = [UIColor colorWithRed:25/255.0 green:181/255.0 blue:254/255.0 alpha:1];
+    
+    CALayer *cellImageLayer = cell.relatedAnimeImageView.layer;
+    [cellImageLayer setCornerRadius:4];
+    [cellImageLayer setMasksToBounds:YES];
     
     return cell;
 }
@@ -163,42 +180,6 @@
         AAAnimeProfileViewController *destination1 = [segue destinationViewController];
         destination1.animeID = anime.animeID;
     }
-}
-
-#pragma mark - Another Methods 
-
-- (void) convertDate:(AAAnimeRelatedTableViewCell *)cell {
-    NSString *dateString = self.animeProfile.airedOn;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"dd-MM-yyyy"];
-    NSDate *dateFromString = [[NSDate alloc] init];
-    dateFromString = [dateFormatter dateFromString:dateString];
-    
-    [dateFormatter setDateFormat:@"yyyy"];
-    NSString *stringDate = [dateFormatter stringFromDate:dateFromString];
-    cell.relatedAnimeYearLabel.text = stringDate;
-    if ([self.animeProfile.status isEqualToString:@"anons"] && self.animeProfile.airedOn != 0) {
-        cell.relatedAnimeYearLabel.text = self.animeProfile.airedOn;
-    } else if ([self.animeProfile.status isEqualToString:@"anons"]) {
-        self.animeProfile.airedOn = @"Анонсировано";
-        cell.relatedAnimeYearLabel.text = self.animeProfile.airedOn;
-    }
-}
-
-- (void) parseAnimeGenres {
-    for (NSDictionary *genres in self.animeProfile.genresArray) {
-        self.animeProfile.genresRussian = genres[@"russian"];
-        [self.genres addObject:self.animeProfile.genresRussian];
-    }
-    self.genre = [self.genres componentsJoinedByString:@", "];
-    
-    [self.genres removeAllObjects];
-}
-
-- (void) setCALayerForImage:(AAAnimeRelatedTableViewCell *)cell {
-    CALayer *cellImageLayer = cell.relatedAnimeImageView.layer;
-    [cellImageLayer setCornerRadius:4];
-    [cellImageLayer setMasksToBounds:YES];
 }
 
 @end

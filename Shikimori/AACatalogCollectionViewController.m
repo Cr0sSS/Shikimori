@@ -55,14 +55,26 @@ static NSInteger pageInRequest = 0;
     [searchButtonItem setTintColor:[UIColor whiteColor]];
     
     self.titleButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.titleButton setTitle:@"     По рейтингу      " forState:UIControlStateNormal];
+    self.titleButton.frame = CGRectMake(0, 0, self.navigationController.navigationBar.bounds.size.width / 1.5, 28);
+    [self.titleButton setTitle:@"По рейтингу" forState:UIControlStateNormal];
     [self.titleButton setImage:[[UIImage imageNamed:@"arrow_down_icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [self.titleButton addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
-    self.titleButton.titleLabel.font =  [UIFont fontWithName:@"Copperplate" size:18.0];
-    self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
-    self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 142, 0, -5);
-    [self.titleButton sizeToFit];
-    self.navigationItem.titleView = self.titleButton;
+    self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, self.titleButton.imageView.bounds.size.width / 2, 0, 0);
+    
+    UIView *titleView = [[UIView alloc] init];
+    titleView.frame = CGRectMake(0, 0, self.navigationController.navigationBar.bounds.size.width / 1.5, 28);
+    [titleView addSubview:self.titleButton];
+    self.navigationItem.titleView = titleView;
+    
+    self.titleButton.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+    self.titleButton.titleLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+    self.titleButton.imageView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+    
+    if (IS_IPAD) {
+        self.titleButton.titleLabel.font =  [UIFont fontWithName:@"Copperplate" size:24.0];
+    } else {
+        self.titleButton.titleLabel.font =  [UIFont fontWithName:@"Copperplate" size:18.0];
+    }
     
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
     self.collectionView.backgroundView = tempImageView;
@@ -91,7 +103,7 @@ static NSInteger pageInRequest = 0;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-   [self.collectionView reloadData];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - API Methods
@@ -101,30 +113,30 @@ static NSInteger pageInRequest = 0;
     [SVProgressHUD show];
     
     [[AAServerManager shareManager] getAnimeCatalog:pageInRequest = pageInRequest + 1
-                                           limit:batchSize
-                                           order:self.order
-                                          status:self.status
-                                       onSuccess:^(NSArray *anime) {
-                                           [self.animes addObjectsFromArray:anime];
-                                           self.addCell = [NSMutableArray array];
-                                           
-                                           for (int i = (int)[self.animes count] - (int)[anime count]; i < [self.animes count]; i++) {
-                                               [self.addCell addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-                                           }
-                                           
-                                           self.loadingCell = NO;
-                                           [self.collectionView reloadData];
-                                           [SVProgressHUD dismiss];
-                                       }
-                                       onFailure:^(NSError *error, NSInteger statusCode) {
-                                           [SVProgressHUD dismiss];
-                                           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                                                                           message:@"Не удалось получить данные. Попробовать еще раз?"
-                                                                                          delegate:self
-                                                                                 cancelButtonTitle:@"Нет"
-                                                                                 otherButtonTitles:@"Да", nil];
-                                           [alert show];
-                                       }];
+                                              limit:batchSize
+                                              order:self.order
+                                             status:self.status
+                                          onSuccess:^(NSArray *anime) {
+                                              [self.animes addObjectsFromArray:anime];
+                                              self.addCell = [NSMutableArray array];
+                                              
+                                              for (int i = (int)[self.animes count] - (int)[anime count]; i < [self.animes count]; i++) {
+                                                  [self.addCell addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+                                              }
+                                              
+                                              self.loadingCell = NO;
+                                              [self.collectionView reloadData];
+                                              [SVProgressHUD dismiss];
+                                          }
+                                          onFailure:^(NSError *error, NSInteger statusCode) {
+                                              [SVProgressHUD dismiss];
+                                              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
+                                                                                              message:@"Не удалось получить данные. Попробовать еще раз?"
+                                                                                             delegate:self
+                                                                                    cancelButtonTitle:@"Нет"
+                                                                                    otherButtonTitles:@"Да", nil];
+                                              [alert show];
+                                          }];
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -137,7 +149,7 @@ static NSInteger pageInRequest = 0;
     return [self.animes count];
 }
 
-- (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (AACatalogCollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString * const reuseIdentifier = @"Cell";
     AACatalogCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
@@ -161,7 +173,10 @@ static NSInteger pageInRequest = 0;
     
     cell.textLabel.text = anime.russian;
     
-    [self setCALayerForImage:cell];
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.layer.borderWidth = 1.0f;
+    cell.layer.borderColor = [UIColor grayColor].CGColor;
+    cell.layer.cornerRadius = 6.0f;
     
     return cell;
 }
@@ -243,6 +258,7 @@ static NSInteger pageInRequest = 0;
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     
     if([title isEqualToString:@"Да"]) {
+        pageInRequest = pageInRequest - 1;
         [self getAnimeCatalogFromServer];
     }
 }
@@ -270,15 +286,18 @@ static NSInteger pageInRequest = 0;
     NSAttributedString *(^attributedTitle)(NSString *title) = ^NSAttributedString *(NSString *title) {
         UIColor *textColor = [UIColor lightTextColor];
         
-        return [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:textColor, NSFontAttributeName:[UIFont fontWithName:@"Copperplate" size:17.0f]}];
+        if (IS_IPAD) {
+            return [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:textColor, NSFontAttributeName:[UIFont fontWithName:@"Copperplate" size:24.0f]}];
+            
+        } else {
+            return [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:textColor, NSFontAttributeName:[UIFont fontWithName:@"Copperplate" size:18.0f]}];
+        }
     };
     NSArray *styleItems =
     @[
       [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По рейтингу") image:nil action:^{
           
-          self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
-          self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 142, 0, -5);
-          [self.titleButton setTitle:@"     По рейтингу      " forState:UIControlStateNormal];
+          [self.titleButton setTitle:@"По рейтингу" forState:UIControlStateNormal];
           
           self.order = @"ranked";
           [self.animes removeAllObjects];
@@ -287,8 +306,6 @@ static NSInteger pageInRequest = 0;
       }],
       [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По популярности") image:nil action:^{
           
-          self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
-          self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 176, 0, -5);
           [self.titleButton setTitle:@"По популярности" forState:UIControlStateNormal];
           
           self.order = @"popularity";
@@ -298,8 +315,6 @@ static NSInteger pageInRequest = 0;
       }],
       [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По дате выхода") image:nil action:^{
           
-          self.titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
-          self.titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 170, 0, -5);
           [self.titleButton setTitle:@"По дате выхода" forState:UIControlStateNormal];
           
           self.order = @"aired_on";
@@ -310,15 +325,6 @@ static NSInteger pageInRequest = 0;
       ];
     
     [RWDropdownMenu presentFromViewController:self withItems:styleItems align:RWDropdownMenuCellAlignmentCenter style:0 navBarImage:nil completion:nil];
-}
-
-#pragma mark - Another Methods
-
-- (void) setCALayerForImage:(AACatalogCollectionViewCell *)cell {
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.layer.borderWidth = 1.0f;
-    cell.layer.borderColor = [UIColor grayColor].CGColor;
-    cell.layer.cornerRadius = 6.0f;
 }
 
 @end

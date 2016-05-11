@@ -10,9 +10,9 @@
 
 @interface AAAnimeRelated : NSObject
 
+@property (strong, nonatomic) NSString *animeID;
 @property (strong, nonatomic) NSString *relationRussian;
 @property (strong, nonatomic) NSDictionary *anime;
-@property (strong, nonatomic) NSString *animeID;
 
 - (id)initWithServerResponce:(NSDictionary*) responseObject;
 

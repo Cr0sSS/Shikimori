@@ -30,11 +30,11 @@
             onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure;
 
 - (void)getAnimeSimilar:(NSString*) idAnime
-            onSuccess:(void(^)(NSArray *animeSimilar)) success
+            onSuccess:(BOOL(^)(NSArray *animeSimilar)) success
             onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure;
 
 - (void)getAnimeRelated:(NSString*) idAnime
-               onSuccess:(void(^)(NSArray *animeRelated)) success
+               onSuccess:(BOOL(^)(NSArray *animeRelated)) success
                onFailure:(void(^)(NSError* error, NSInteger statusCode)) failure;
 
 - (void)getAnimeOngoingCalendar:(void(^)(NSArray *animeCalendar)) success

@@ -44,25 +44,20 @@
 {
     if (section == 0) {
         return 5;
-    } else if (section == 1) {
-        return 1;
     } else {
-        return 0;
+        return 1;
     }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return @"   Каталог";
-    } else if (section == 1) {
-        return @"   Календарь";
+        return @"Каталог";
     } else {
-        return 0;
+        return @"Календарь";
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
@@ -74,20 +69,28 @@
     NSString *text = nil;
     
     if (indexPath.section == 0) {
-        switch (indexPath.row)
-        {
-            case 0: text = @"Весь список"; break;
-            case 1: text = @"Анонсировано"; break;
-            case 2: text = @"Сейчас идёт"; break;
-            case 3: text = @"Вышедшее"; break;
-            case 4: text = @"Недавно вышедшее"; break;
+        switch (indexPath.row) {
+            case 0:
+                text = @"Весь список";
+                break;
+            case 1:
+                text = @"Анонсировано";
+                break;
+            case 2:
+                text = @"Сейчас идёт";
+                break;
+            case 3:
+                text = @"Вышедшее";
+                break;
+            case 4:
+                text = @"Недавно вышедшее";
+                break;
         }
     } else if (indexPath.section == 1) {
         text = @"Календарь онгоингов";
     }
     
     cell.imageView.image = [UIImage imageNamed:text];
-    
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.font =  [UIFont fontWithName:@"Copperplate" size:17.0];
     cell.textLabel.textColor = [UIColor whiteColor];
@@ -99,58 +102,58 @@
 #pragma mark - UITableViewDelegate
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UILabel *myLabel = [[UILabel alloc] init];
-    myLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 28);
-    myLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
-    myLabel.font = [UIFont fontWithName:@"Copperplate" size:19.0];
-    myLabel.text = [self tableView:tableView titleForHeaderInSection:section];
-    myLabel.backgroundColor = [UIColor colorWithRed:163/255.0f green:163/255.0f blue:163/255.0f alpha:1.0f];
+    UILabel *headerLabel = [[UILabel alloc] init];
+    headerLabel.frame = CGRectMake(8, 0, self.view.bounds.size.width, 28);
+    headerLabel.font = [UIFont fontWithName:@"Copperplate" size:19.0];
+    headerLabel.text = [self tableView:tableView titleForHeaderInSection:section];
     
     UIView *headerView = [[UIView alloc] init];
-    [headerView addSubview:myLabel];
+    headerView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 28);
+    headerView.backgroundColor = [UIColor colorWithRed:163/255.0f green:163/255.0f blue:163/255.0f alpha:1.0f];
+    [headerView addSubview:headerLabel];
     
     return headerView;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     SWRevealViewController *revealController = self.revealViewController;
     
     if (indexPath.section == 0) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         AACatalogCollectionViewController *catalogController = [storyboard  instantiateViewControllerWithIdentifier:@"CollectionViewController"];
         
-        if (indexPath.row == 0) {
-            catalogController.order = @"ranked";
-            catalogController.status = @"";
-        } else if (indexPath.row == 1) {
-            catalogController.order = @"";
-            catalogController.status = @"anons";
-        } else if (indexPath.row == 2) {
-            catalogController.order = @"";
-            catalogController.status = @"ongoing";
-        } else if (indexPath.row == 3) {
-            catalogController.order = @"";
-            catalogController.status = @"released";
-        } else if (indexPath.row == 4) {
-            catalogController.order = @"";
-            catalogController.status = @"latest";
+        catalogController.order = @"";
+        
+        switch (indexPath.row) {
+            case 0:
+                catalogController.status = @"";
+                break;
+            case 1:
+                catalogController.status = @"anons";
+                break;
+            case 2:
+                catalogController.status = @"ongoing";
+                break;
+            case 3:
+                catalogController.status = @"released";
+                break;
+            case 4:
+                catalogController.status = @"latest";
+                break;
         }
         
         UINavigationController *frontNavigationController = [[UINavigationController alloc] initWithRootViewController:catalogController];
-        
         [revealController setFrontViewController:frontNavigationController animated:YES];
         [revealController setFrontViewPosition:FrontViewPositionLeft animated:YES];
         
     } else if (indexPath.section == 1) {
+        
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         AACalendarTableViewController *calendarController = [storyboard  instantiateViewControllerWithIdentifier:@"CalendarTableView"];
-
         UINavigationController *frontNavigationController = [[UINavigationController alloc] initWithRootViewController:calendarController];
-        
         [revealController setFrontViewController:frontNavigationController animated:YES];
         [revealController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-        
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

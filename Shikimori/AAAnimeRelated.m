@@ -11,14 +11,12 @@
 @implementation AAAnimeRelated
 
 - (id)initWithServerResponce:(NSDictionary*) responseObject {
-    self = [super init];
     if (self) {
         self.relationRussian = [responseObject objectForKey:@"relation_russian"];
         self.anime = [responseObject objectForKey:@"anime"];
-        self.animeID = [self.anime objectForKey:@"id"];        
+        self.animeID = [self.anime objectForKey:@"id"];
     }
     return self;
 }
-
 
 @end

@@ -1,5 +1,5 @@
 //
-//  AASimilarPopUpTableViewController.m
+//  AAAnimeSimilarTableViewController.m
 //  Shikimori
 //
 //  Created by Admin on 08.04.16.
@@ -15,7 +15,6 @@
 
 @interface AAAnimeSimilarTableViewController ()
 
-@property (strong, nonatomic) NSString *genre;
 @property (strong, nonatomic) UIImage *placeholder;
 @property (strong, nonatomic) AAAnimeProfile *animeProfile;
 
@@ -32,7 +31,7 @@
     self.similarProfile = [NSMutableArray array];
     self.genres = [NSMutableArray array];
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         self.tableView.rowHeight = 240;
     } else {
         self.tableView.rowHeight = 120;
@@ -49,6 +48,21 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) convertDate:(AAAnimeSimilarTableViewCell*) cell {
+    if (!([self.animeProfile.status isEqualToString:@"anons"] && self.animeProfile.airedOn != 0)) {
+        NSString *dateString = self.animeProfile.airedOn;
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"dd-MM-yyyy"];
+        NSDate *dateFromString = [[NSDate alloc] init];
+        dateFromString = [dateFormatter dateFromString:dateString];
+        [dateFormatter setDateFormat:@"yyyy"];
+        NSString *stringDate = [dateFormatter stringFromDate:dateFromString];
+        cell.similarAnimeYearLabel.text = stringDate;
+    } else {
+        cell.similarAnimeYearLabel.text = self.animeProfile.airedOn;
+    }
+}
+
 #pragma mark - API Methods
 
 - (void) getAnimeSimilarFromServer {
@@ -60,6 +74,7 @@
                                               [self.similar addObjectsFromArray:animeSimilar];
                                               if ([self.similar count] == 0) {
                                                   [SVProgressHUD dismiss];
+                                                  return YES;
                                               }
                                               
                                               dispatch_queue_t queue = dispatch_queue_create("com.shiki.similar", DISPATCH_QUEUE_CONCURRENT);
@@ -86,9 +101,9 @@
                                                       [self.tableView reloadData];
                                                       [SVProgressHUD dismiss];
                                                   });
-                                              
+                                                  
                                               });
-                                              
+                                              return YES;
                                           }
                                           onFailure:^(NSError *error, NSInteger statusCode) {
                                               [SVProgressHUD dismiss];
@@ -107,7 +122,7 @@
     return [self.similarProfile count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (AAAnimeSimilarTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString * const reuseIdentifier = @"Cell";
     AAAnimeSimilarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     
@@ -131,16 +146,18 @@
          NSLog(@"%@", error);
      }];
     
-    [self parseAnimeGenres];
     [self convertDate:cell];
-    [self setCALayerForImage:cell];
     
     cell.similarAnimeNameLabel.text = [NSString stringWithFormat:@"%@", self.animeProfile.russian];
     cell.similarAnimeTypeLabel.text = [NSString stringWithFormat:@"%@", self.animeProfile.kind];
     cell.similarAnimeEpisodesLabel.text = [NSString stringWithFormat:@"Эпизоды: %@", self.animeProfile.episodes];
-    cell.similarAnimeGenresLabel.text = [NSString stringWithFormat:@"%@", self.genre];
+    cell.similarAnimeGenresLabel.text = [NSString stringWithFormat:@"%@", self.animeProfile.genre];
     
     cell.similarAnimeNameLabel.textColor = [UIColor colorWithRed:25/255.0 green:181/255.0 blue:254/255.0 alpha:1];
+    
+    CALayer *cellImageLayer = cell.similarAnimeImageView.layer;
+    [cellImageLayer setCornerRadius:4];
+    [cellImageLayer setMasksToBounds:YES];
     
     return cell;
 }
@@ -174,42 +191,6 @@
         AAAnimeProfileViewController *destination1 = [segue destinationViewController];
         destination1.animeID = anime.animeID;
     }
-}
-
-#pragma mark - Another Methods
-
-- (void) convertDate:(AAAnimeSimilarTableViewCell*) cell {
-    NSString *dateString = self.animeProfile.airedOn;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"dd-MM-yyyy"];
-    NSDate *dateFromString = [[NSDate alloc] init];
-    dateFromString = [dateFormatter dateFromString:dateString];
-    
-    [dateFormatter setDateFormat:@"yyyy"];
-    NSString *stringDate = [dateFormatter stringFromDate:dateFromString];
-    cell.similarAnimeYearLabel.text = stringDate;
-    if ([self.animeProfile.status isEqualToString:@"anons"] && self.animeProfile.airedOn != 0) {
-        cell.similarAnimeYearLabel.text = self.animeProfile.airedOn;
-    } else if ([self.animeProfile.status isEqualToString:@"anons"]) {
-        self.animeProfile.airedOn = @"Анонсировано";
-        cell.similarAnimeYearLabel.text = self.animeProfile.airedOn;
-    }
-}
-
-- (void) parseAnimeGenres {
-    for (NSDictionary *genres in self.animeProfile.genresArray) {
-        self.animeProfile.genresRussian = genres[@"russian"];
-        [self.genres addObject:self.animeProfile.genresRussian];
-    }
-    self.genre = [self.genres componentsJoinedByString:@", "];
-    
-    [self.genres removeAllObjects];
-}
-
-- (void) setCALayerForImage:(AAAnimeSimilarTableViewCell*) cell {
-    CALayer *cellImageLayer = cell.similarAnimeImageView.layer;
-    [cellImageLayer setCornerRadius:4];
-    [cellImageLayer setMasksToBounds:YES];
 }
 
 @end

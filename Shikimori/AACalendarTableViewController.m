@@ -20,7 +20,7 @@
 @property (strong, nonatomic) AAAnimeCalendar *animeCalendar;
 @property (strong, nonatomic) UIImage *placeholder;
 @property (strong, nonatomic) NSString *sectionName;
-@property (strong, nonatomic) NSSet *uniqueDateNextEpisodeAt;
+@property (strong, nonatomic) NSSet *uniqueDatesNextEpisodeAt;
 @property (strong, nonatomic) NSMutableArray *rowsInSection;
 @property (strong, nonatomic) NSArray *titlesForHeaderInSection;
 
@@ -72,9 +72,9 @@
         self.animes = [NSMutableArray array];
         [self.animes addObjectsFromArray:animeCalendar];
         
-        NSArray *nextEpisodeAtArray = [self.animes valueForKey:@"nextEpisodeAt"];
-        NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithArray:nextEpisodeAtArray];
-        self.uniqueDateNextEpisodeAt = [orderedSet set];
+        NSArray *nextEpisodesAt = [self.animes valueForKey:@"nextEpisodeAt"];
+        NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithArray:nextEpisodesAt];
+        self.uniqueDatesNextEpisodeAt = [orderedSet set];
         
         [self.tableView reloadData];
         [SVProgressHUD dismiss];
@@ -92,7 +92,7 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [self.uniqueDateNextEpisodeAt count];
+    return [self.uniqueDatesNextEpisodeAt count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -105,7 +105,7 @@
     return [self.rowsInSection count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (AAAnimeCalendarViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString * const reuseIdentifier = @"Cell";
     AAAnimeCalendarViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     
@@ -136,19 +136,21 @@
          NSLog(@"%@", error);
      }];
     
-    [self setCALayerForImage:cell];
-    
-    cell.calendarAnimeNameLabel.text = [NSString stringWithFormat:@"%@", self.animeCalendar.russian];
-    cell.calendarAnimeNextEpisode.text = [NSString stringWithFormat:@"%@ эпизод", self.animeCalendar.nextEpisode];
-    cell.calendarAnimeType.text = [NSString stringWithFormat:@"%@", self.animeCalendar.kind];
+    cell.calendarAnimeNameLabel.text = self.animeCalendar.russian;
+    cell.calendarAnimeNextEpisode.text = self.animeCalendar.nextEpisode;
+    cell.calendarAnimeType.text = self.animeCalendar.kind;
     
     cell.calendarAnimeNameLabel.textColor = [UIColor colorWithRed:25/255.0 green:181/255.0 blue:254/255.0 alpha:1];
+    
+    CALayer *cellImageLayer = cell.calendarAnimeImageView.layer;
+    [cellImageLayer setCornerRadius:4];
+    [cellImageLayer setMasksToBounds:YES];
     
     return cell;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    self.titlesForHeaderInSection = [self.uniqueDateNextEpisodeAt allObjects];
+    self.titlesForHeaderInSection = [self.uniqueDatesNextEpisodeAt allObjects];
     return [self.titlesForHeaderInSection objectAtIndex:section];
 }
 
@@ -188,14 +190,6 @@
 - (void)showSearchController {
     UIViewController *searchVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
     [self.navigationController pushViewController:searchVC animated:YES];
-}
-
-#pragma mark - Another Methods
-
-- (void) setCALayerForImage:(AAAnimeCalendarViewCell *)cell {
-    CALayer *cellImageLayer = cell.calendarAnimeImageView.layer;
-    [cellImageLayer setCornerRadius:4];
-    [cellImageLayer setMasksToBounds:YES];
 }
 
 @end

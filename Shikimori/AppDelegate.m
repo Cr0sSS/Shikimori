@@ -41,11 +41,11 @@
     if (IS_IPHONE) {
         [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                                                                [UIColor whiteColor], NSForegroundColorAttributeName,
-                                                               [UIFont fontWithName:@"Copperplate" size:22.0], NSFontAttributeName, nil]];
+                                                               [UIFont fontWithName:@"Copperplate" size:18.0], NSFontAttributeName, nil]];
     } else {
         [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                                                                [UIColor whiteColor], NSForegroundColorAttributeName,
-                                                               [UIFont fontWithName:@"Copperplate" size:28.0], NSFontAttributeName, nil]];
+                                                               [UIFont fontWithName:@"Copperplate" size:24.0], NSFontAttributeName, nil]];
     }
 
     

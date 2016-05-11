@@ -8,6 +8,10 @@
 
 #import "AAAnimeProfile.h"
 
+@interface AAAnimeProfile ()
+
+@end
+
 @implementation AAAnimeProfile
 
 - (id)initWithServerResponce:(NSDictionary*) responseObject {
@@ -25,10 +29,10 @@
             self.russian = [NSString stringWithFormat:@"%@ / %@", [responseObject objectForKey:@"russian"], self.name];
         }
         
-        self.imageDict = [responseObject objectForKey:@"image"];
+        self.images = [responseObject objectForKey:@"image"];
         
-        if (![[self.imageDict objectForKey:@"original"] isEqual:[NSNull null]]) {
-            self.imageURL = [self.imageDict objectForKey:@"original"];
+        if (![[self.images objectForKey:@"original"] isEqual:[NSNull null]]) {
+            self.imageURL = [self.images objectForKey:@"original"];
         }
         
         if ([[responseObject objectForKey:@"episodes_aired"] isEqual:[NSNull null]]) {
@@ -106,10 +110,19 @@
             [self convertDateReleasedOn];
         }
         
-        self.genresArray = [responseObject objectForKey:@"genres"];
+        self.genres = [responseObject objectForKey:@"genres"];
+        NSMutableArray *mArray = [NSMutableArray array];
+        for (NSDictionary *genres in self.genres) {
+            NSString *genre = genres[@"russian"];
+            [mArray addObject:genre];
+        }
+
+        self.genre = [mArray componentsJoinedByString:@", "];
+        
         if (![[responseObject objectForKey:@"description"] isEqual:[NSNull null]]) {
             self.descriptionAnime = [responseObject objectForKey:@"description"];
         }
+
     }
     return self;
 }

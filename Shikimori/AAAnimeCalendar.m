@@ -37,7 +37,7 @@
             }
         }
         
-        self.nextEpisode = [responseObject objectForKey:@"next_episode"];
+        self.nextEpisode = [NSString stringWithFormat:@"%@ эпизод", [responseObject objectForKey:@"next_episode"]];
         
         NSString *nextEpisodeAt = [responseObject objectForKey:@"next_episode_at"];
         
