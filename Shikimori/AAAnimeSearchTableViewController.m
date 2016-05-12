@@ -48,13 +48,14 @@
 }
 
 - (NSManagedObjectContext*) managedObjectContext {
+    
     if (!_managedObjectContext) {
         _managedObjectContext = [[AACoreDataManager sharedManager] managedObjectContext];
     }
     return _managedObjectContext;
 }
 
-#pragma mark - UITableDataSource
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [[self.fetchedResultsController sections] count];
@@ -63,13 +64,10 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
     return [sectionInfo numberOfObjects];
-    
 }
 
 - (AAAnimeSearchTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     static NSString *identifier = @"Cell";
-    
     AAAnimeSearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     
     if (!cell) {
@@ -85,13 +83,11 @@
     return NO;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)configureCell:(AAAnimeSearchTableViewCell*)cell atIndexPath:(NSIndexPath *)indexPath {
-    
     Anime *anime = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.searchAnimeNameLabel.textColor = [UIColor colorWithRed:25/255.0 green:181/255.0 blue:254/255.0 alpha:1];
@@ -142,7 +138,6 @@
     CALayer *cellImageLayer = cell.searchAnimeImageView.layer;
     [cellImageLayer setCornerRadius:4];
     [cellImageLayer setMasksToBounds:YES];
-    
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -158,10 +153,9 @@
     return sectionName;
 }
 
-#pragma mark - Fetched results controller
+#pragma mark - NSFetchedResultsController
 
 - (NSFetchedResultsController*)filter:(NSString*)text {
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
                    ^{
                        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -219,9 +213,7 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    
     [self filter:searchText];
-    
     if (searchText.length == 0) {
         [searchBar resignFirstResponder];
         [searchBar setShowsCancelButton:NO animated:YES];
@@ -240,11 +232,8 @@
 #pragma mark - Navigation Methods
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    
     if ([[segue identifier] isEqualToString:@"profile"]) {
-        
         Anime *anime = [self.fetchedResultsController objectAtIndexPath:indexPath];
         AAAnimeProfileViewController *destination1 = [segue destinationViewController];
         destination1.animeID = anime.animeID;

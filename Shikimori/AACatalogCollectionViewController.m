@@ -109,9 +109,7 @@ static NSInteger pageInRequest = 0;
 #pragma mark - API Methods
 
 - (void) getAnimeCatalogFromServer {
-    
     [SVProgressHUD show];
-    
     [[AAServerManager shareManager] getAnimeCatalog:pageInRequest = pageInRequest + 1
                                               limit:batchSize
                                               order:self.order
@@ -139,7 +137,7 @@ static NSInteger pageInRequest = 0;
                                           }];
 }
 
-#pragma mark <UICollectionViewDataSource>
+#pragma mark - UICollectionViewDataSource
 
 - (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -150,7 +148,6 @@ static NSInteger pageInRequest = 0;
 }
 
 - (AACatalogCollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     static NSString * const reuseIdentifier = @"Cell";
     AACatalogCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     if (!cell) {
@@ -172,7 +169,6 @@ static NSInteger pageInRequest = 0;
      }];
     
     cell.textLabel.text = anime.russian;
-    
     cell.backgroundColor = [UIColor whiteColor];
     cell.layer.borderWidth = 1.0f;
     cell.layer.borderColor = [UIColor grayColor].CGColor;
@@ -243,7 +239,6 @@ static NSInteger pageInRequest = 0;
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
     if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - 20) {
         if (!self.loadingCell) {
             [self getAnimeCatalogFromServer];
@@ -256,7 +251,6 @@ static NSInteger pageInRequest = 0;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-    
     if([title isEqualToString:@"Да"]) {
         pageInRequest = pageInRequest - 1;
         [self getAnimeCatalogFromServer];
@@ -266,11 +260,8 @@ static NSInteger pageInRequest = 0;
 #pragma mark - Navigation Methods
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender];
-    
     if ([[segue identifier] isEqualToString:@"profile"]) {
-        
         AAAnimeCatalog *anime = [self.animes objectAtIndex:indexPath.row];
         AAAnimeProfileViewController *destination1 = [segue destinationViewController];
         destination1.animeID = anime.animeID;
@@ -293,6 +284,7 @@ static NSInteger pageInRequest = 0;
             return [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:textColor, NSFontAttributeName:[UIFont fontWithName:@"Copperplate" size:18.0f]}];
         }
     };
+    
     NSArray *styleItems =
     @[
       [RWDropdownMenuItem itemWithAttributedText:attributedTitle(@"По рейтингу") image:nil action:^{

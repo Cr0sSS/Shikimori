@@ -32,7 +32,7 @@
     } else {
         self.tableView.rowHeight = 34;
     }
-
+    
     self.webView.scrollView.scrollEnabled = NO;
     self.webView.scrollView.bounces = NO;
     self.videoOptions = [NSMutableArray array];
@@ -51,7 +51,6 @@
 #pragma mark - Parse Methods
 
 - (void) parseVideoEpisode {
-    
     [SVProgressHUD show];
     
     UIView *preloadView = [[UIView alloc] init];
@@ -196,11 +195,10 @@
 #pragma mark - UIWebViewDelegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    
     [self.activityIndicator stopAnimating];
 }
+
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error {
-    
     [self.activityIndicator stopAnimating];
 }
 
@@ -211,12 +209,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return [self.videoOptions count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     static NSString * const reuseIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     if (!cell) {
@@ -237,14 +233,12 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    
     return @"Эпизоды";
 }
 
 #pragma mark UITableViewDelegate
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.activityIndicator startAnimating];
     AAAnimeVideo *video = [self.videoOptions objectAtIndex:indexPath.row];
@@ -254,24 +248,22 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UILabel *myLabel = [[UILabel alloc] init];
+    UILabel *headerLabel = [[UILabel alloc] init];
+    headerLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 24);
+    headerLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
+    headerLabel.text = [self tableView:tableView titleForHeaderInSection:section];
+    headerLabel.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f];
     
     if (IS_IPAD) {
-        myLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 24);
-        myLabel.font = [UIFont fontWithName:@"Copperplate" size:22.0];
+        headerLabel.font = [UIFont fontWithName:@"Copperplate" size:22.0];
     } else {
-        myLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 24);
-        myLabel.font = [UIFont fontWithName:@"Copperplate" size:16.0];
+        headerLabel.font = [UIFont fontWithName:@"Copperplate" size:16.0];
     }
-    myLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
-    myLabel.text = [self tableView:tableView titleForHeaderInSection:section];
-    myLabel.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f];
     
     UIView *headerView = [[UIView alloc] init];
-    [headerView addSubview:myLabel];
+    [headerView addSubview:headerLabel];
     
     return headerView;
 }
-
 
 @end

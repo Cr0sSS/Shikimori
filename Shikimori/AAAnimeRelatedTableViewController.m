@@ -40,7 +40,6 @@
     self.placeholder = [UIImage imageNamed:@"imageholder"];
     
     [self getAnimeRelatedFromServer];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,13 +65,17 @@
 #pragma mark - API Methods
 
 - (void) getAnimeRelatedFromServer {
-
     [SVProgressHUD show];
-    
     [[AAServerManager shareManager] getAnimeRelated:self.animeID
                                           onSuccess:^(NSArray *animeRelated) {
                                               [self.related addObjectsFromArray:animeRelated];
                                               if ([self.related count] == 0) {
+                                                  
+                                                  
+                                                  UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"no_results"]];
+                                                  tempImageView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+                                                  [self.view addSubview:tempImageView];
+                                                  
                                                   [SVProgressHUD dismiss];
                                                   return YES;
                                               }
@@ -82,19 +85,19 @@
                                                   
                                                   dispatch_group_t group = dispatch_group_create();
                                                   
-                                              for (AAAnimeRelated *anime in self.related) {
-                                                  dispatch_group_enter(group);
-                                                  [[AAServerManager shareManager] getAnimeProfile:anime.animeID
-                                                                                        onSuccess:^(AAAnimeProfile *animeDateAndGenres) {
-                                                                                            [self.relatedProfile addObject:animeDateAndGenres];
-                                                                                            dispatch_group_leave(group);
-                                                                                        }
-                                                                                        onFailure:^(NSError *error, NSInteger statusCode) {
-                                                                                            NSLog(@"error = %@, code = %ld", [error localizedDescription], (long)statusCode);
-                                                                                            dispatch_group_leave(group);
-                                                                                        }];
-                                                   dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-                                              }
+                                                  for (AAAnimeRelated *anime in self.related) {
+                                                      dispatch_group_enter(group);
+                                                      [[AAServerManager shareManager] getAnimeProfile:anime.animeID
+                                                                                            onSuccess:^(AAAnimeProfile *animeDateAndGenres) {
+                                                                                                [self.relatedProfile addObject:animeDateAndGenres];
+                                                                                                dispatch_group_leave(group);
+                                                                                            }
+                                                                                            onFailure:^(NSError *error, NSInteger statusCode) {
+                                                                                                NSLog(@"error = %@, code = %ld", [error localizedDescription], (long)statusCode);
+                                                                                                dispatch_group_leave(group);
+                                                                                            }];
+                                                      dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+                                                  }
                                                   dispatch_group_notify(group, dispatch_get_main_queue(), ^{
                                                       [self.tableView reloadData];
                                                       [SVProgressHUD dismiss];
@@ -111,12 +114,10 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
     return [self.relatedProfile count];
 }
 
@@ -152,9 +153,7 @@
     cell.relatedAnimeEpisodesLabel.text = [NSString stringWithFormat:@"Эпизоды: %@", self.animeProfile.episodes];
     cell.relatedAnimeGenresLabel.text = [NSString stringWithFormat:@"%@", self.animeProfile.genre];
     cell.relatedAnimeRelationLabel.text = [NSString stringWithFormat:@"%@", animeRelated.relationRussian];
-    
     cell.relatedAnimeNameLabel.textColor = [UIColor colorWithRed:25/255.0 green:181/255.0 blue:254/255.0 alpha:1];
-    
     CALayer *cellImageLayer = cell.relatedAnimeImageView.layer;
     [cellImageLayer setCornerRadius:4];
     [cellImageLayer setMasksToBounds:YES];
@@ -171,11 +170,8 @@
 #pragma mark - Navigation Methods
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    
     if ([[segue identifier] isEqualToString:@"ShowAnimeProfile"]) {
-        
         AAAnimeProfile *anime = [self.relatedProfile objectAtIndex:indexPath.row];
         AAAnimeProfileViewController *destination1 = [segue destinationViewController];
         destination1.animeID = anime.animeID;

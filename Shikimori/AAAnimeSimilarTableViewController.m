@@ -40,7 +40,6 @@
     self.placeholder = [UIImage imageNamed:@"imageholder"];
     
     [self getAnimeSimilarFromServer];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,9 +65,7 @@
 #pragma mark - API Methods
 
 - (void) getAnimeSimilarFromServer {
-    
     [SVProgressHUD show];
-    
     [[AAServerManager shareManager] getAnimeSimilar:self.animeID
                                           onSuccess:^(NSArray *animeSimilar) {
                                               [self.similar addObjectsFromArray:animeSimilar];
@@ -113,12 +110,10 @@
 #pragma mark - <UITableViewDataSource>
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return [self.similarProfile count];
 }
 
@@ -164,8 +159,7 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -182,9 +176,7 @@
 #pragma mark - Navigation Methods
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    
     if ([[segue identifier] isEqualToString:@"ShowAnimeProfile"]) {
         
         AAAnimeProfile *anime = [self.similarProfile objectAtIndex:indexPath.row];

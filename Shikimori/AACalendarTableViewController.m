@@ -47,10 +47,10 @@
     [searchButtonItem setTintColor:[UIColor whiteColor]];
     
     self.placeholder = [UIImage imageNamed:@"imageholder"];
-
+    
     self.tableView.tableFooterView = [UIView new];
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         self.tableView.rowHeight = 240;
     } else {
         self.tableView.rowHeight = 120;
@@ -65,9 +65,7 @@
 #pragma mark - API Methods
 
 - (void) getAnimeCalendarFromServer {
-    
     [SVProgressHUD show];
-    
     [[AAServerManager shareManager] getAnimeOngoingCalendar:^(NSArray *animeCalendar) {
         self.animes = [NSMutableArray array];
         [self.animes addObjectsFromArray:animeCalendar];
@@ -164,7 +162,6 @@
         [self getAnimeCalendarFromServer];
     }
 }
-
 
 #pragma mark - Navigation Methods
 

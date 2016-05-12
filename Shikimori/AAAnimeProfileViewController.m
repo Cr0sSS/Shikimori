@@ -34,14 +34,14 @@
     [self getAnimeProfileFromServer];
     
     self.descriptionTextLabel = [[UILabel alloc] init];
-
+    
     [self.scrollView addSubview:self.descriptionTextLabel];
     if (IS_IPHONE) {
         self.descriptionTextLabel.font = [UIFont fontWithName:@"Copperplate" size:10.0];
     } else {
         self.descriptionTextLabel.font = [UIFont fontWithName:@"Copperplate" size:18.0];
     }
-
+    
     self.informations = @[@"Тип:", @"Эпизоды:", @"Длительность эпизода:", @"Вышло:", @"Закончилось:", @"Жанры:"];
     
     for (UIButton *profileButton in self.profileButtons) {
@@ -50,19 +50,17 @@
         [[profileButton layer] setBorderColor:[UIColor colorWithRed:25/255.0 green:181/255.0 blue:254/255.0 alpha:1].CGColor];
         [[profileButton layer] setBackgroundColor:[UIColor colorWithRed:25/255.0 green:181/255.0 blue:254/255.0 alpha:1].CGColor];
     }
-
+    
     self.informationTableView.allowsSelection = NO;
     
     self.placeholder = [UIImage imageNamed:@"imageholder"];
     
     _starRating.starImage = [[UIImage imageNamed:@"star-template"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     _starRating.starHighlightedImage = [[UIImage imageNamed:@"star-highlighted-template"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-
     self.starRating.maxRating = 5.0;
     self.starRating.editable=YES;
     self.starRating.displayMode=EDStarRatingDisplayAccurate;
     
-
     self.unchangeableRatingHeaderTextLabel.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f];
     self.descriptionHeaderTextLabel.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f];
     
@@ -168,21 +166,20 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-    UILabel *myLabel = [[UILabel alloc] init];
-    myLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 20);
-    myLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
-    myLabel.text = [self tableView:tableView titleForHeaderInSection:section];
-    myLabel.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f];
+    UILabel *headerLabel = [[UILabel alloc] init];
+    headerLabel.frame = CGRectMake(0, 0, self.view.bounds.size.width, 20);
+    headerLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
+    headerLabel.text = [self tableView:tableView titleForHeaderInSection:section];
+    headerLabel.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1.0f];
     
     if (IS_IPAD) {
-        myLabel.font = [UIFont fontWithName:@"Copperplate" size:22.0];
+        headerLabel.font = [UIFont fontWithName:@"Copperplate" size:22.0];
     } else {
-        myLabel.font = [UIFont fontWithName:@"Copperplate" size:12.0];
+        headerLabel.font = [UIFont fontWithName:@"Copperplate" size:12.0];
     }
     
     UIView *headerView = [[UIView alloc] init];
-    [headerView addSubview:myLabel];
+    [headerView addSubview:headerLabel];
     
     return headerView;
 }
@@ -191,7 +188,6 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-    
     if([title isEqualToString:@"Да"]) {
         [self getAnimeProfileFromServer];
     }
@@ -200,7 +196,6 @@
 #pragma mark - Navigation Methods
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
     if ([[segue identifier] isEqualToString:@"WatchVideo"]) {
         
         AAAnimeVideoViewController *vc = [segue destinationViewController];
@@ -220,7 +215,6 @@
 
 - (void)setScoreRating {
     float scoreFloat = [self.animeProfile.score floatValue];
-    
     if (scoreFloat >= 9.0) {
         self.animeGradeTextLabel.text = @"Великолепно";
     } else if (scoreFloat >= 8.0) {
@@ -266,7 +260,6 @@
 }
 
 - (void)getScrollViewHeight {
-    
     if (IS_IPHONE) {
         
         [self.descriptionTextLabel setFrame:CGRectMake(16, self.descriptionHeaderTextLabel.frame.origin.y + self.descriptionHeaderTextLabel.frame.size.height +8, self.view.frame.size.width - 32, 0)];

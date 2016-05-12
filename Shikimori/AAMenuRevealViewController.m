@@ -36,12 +36,11 @@
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {    
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 5;
     } else {
@@ -61,8 +60,7 @@
     static NSString *cellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if (nil == cell)
-    {
+    if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
     }
     
@@ -92,7 +90,7 @@
     
     cell.imageView.image = [UIImage imageNamed:text];
     cell.backgroundColor = [UIColor clearColor];
-    cell.textLabel.font =  [UIFont fontWithName:@"Copperplate" size:17.0];
+    cell.textLabel.font =  [UIFont fontWithName:@"Copperplate" size:18.0];
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.textLabel.text = text;
     
@@ -104,7 +102,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UILabel *headerLabel = [[UILabel alloc] init];
     headerLabel.frame = CGRectMake(8, 0, self.view.bounds.size.width, 28);
-    headerLabel.font = [UIFont fontWithName:@"Copperplate" size:19.0];
+    headerLabel.font = [UIFont fontWithName:@"Copperplate" size:20.0];
     headerLabel.text = [self tableView:tableView titleForHeaderInSection:section];
     
     UIView *headerView = [[UIView alloc] init];
@@ -116,7 +114,6 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     SWRevealViewController *revealController = self.revealViewController;
     
     if (indexPath.section == 0) {
