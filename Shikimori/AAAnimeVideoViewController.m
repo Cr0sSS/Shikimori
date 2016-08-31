@@ -130,7 +130,7 @@
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         
-        NSData *sourceHTMLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.sourceURL]];
+        NSData *sourceHTMLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http:%@", self.sourceURL]]];
         
         TFHpple *parser = [TFHpple hppleWithHTMLData:sourceHTMLData];
         
