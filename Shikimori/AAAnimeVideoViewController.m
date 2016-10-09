@@ -37,7 +37,7 @@
     self.webView.scrollView.bounces = NO;
     self.videoOptions = [NSMutableArray array];
     self.videoResourceURLs = [NSMutableArray array];
-    self.sourceURL = [NSString stringWithFormat:@"http://play.shikimori.org/animes/%@/video_online", self.animeID];
+    self.sourceURL = [NSString stringWithFormat:@"https://play.shikimori.org/animes/%@/video_online", self.animeID];
     
     [self parseVideoEpisode];
     [self parseVideoURL];
@@ -64,7 +64,7 @@
         
         [self.activityIndicator startAnimating];
         
-        self.sourceURL = [NSString stringWithFormat:@"http://play.shikimori.org/animes/%@/video_online", self.animeID];
+        self.sourceURL = [NSString stringWithFormat:@"https://play.shikimori.org/animes/%@/video_online", self.animeID];
         
         NSData *sourceHTMLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.sourceURL]];
         
@@ -91,7 +91,7 @@
         
         if ([self.videoOptions count] == 0) {
             
-            self.sourceURL = [NSString stringWithFormat:@"http://play.shikimori.org/animes/z%@/video_online", self.animeID];
+            self.sourceURL = [NSString stringWithFormat:@"https://play.shikimori.org/animes/z%@/video_online", self.animeID];
             
             NSData *sourceHTMLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.sourceURL]];
             
@@ -130,7 +130,7 @@
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         
-        NSData *sourceHTMLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http:%@", self.sourceURL]]];
+        NSData *sourceHTMLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https:%@", self.sourceURL]]];
         
         TFHpple *parser = [TFHpple hppleWithHTMLData:sourceHTMLData];
         
@@ -143,7 +143,7 @@
             [self.videoResourceURLs addObject:self.videoURL];
             self.videoURL.videoResourceURL = [element objectForKey:@"src"];
             
-            NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"http:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
+            NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"https:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
             [self.webView loadHTMLString:htmlString baseURL:nil];
         }
         
@@ -162,7 +162,7 @@
                 self.videoURL = [[AAAnimeVideo alloc] init];
                 [self.videoResourceURLs addObject:self.videoURL];
                 self.videoURL.videoResourceURL = [element objectForKey:@"src"];
-                NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"http:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
+                NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"https:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
                 [self.webView loadHTMLString:htmlString baseURL:nil];
             }
         }
@@ -182,7 +182,7 @@
                 [self.videoResourceURLs addObject:self.videoURL];
                 self.videoURL.videoResourceURL = [element objectForKey:@"src"];
                 
-                NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"http:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
+                NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"https:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
                 [self.webView loadHTMLString:htmlString baseURL:nil];
             }
         }
