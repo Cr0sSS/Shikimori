@@ -517,6 +517,7 @@
 				TargetAttributes = {
 					844510E01CABF94E00B73A90 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 5ZP5L939DW;
 					};
 				};
 			};
@@ -772,6 +773,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5ZP5L939DW;
 				GCC_PREFIX_HEADER = $SOURCE_ROOT/Shikimori/PrefixHeader.pch;
 				INFOPLIST_FILE = Shikimori/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -786,6 +788,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5ZP5L939DW;
 				GCC_PREFIX_HEADER = $SOURCE_ROOT/Shikimori/PrefixHeader.pch;
 				INFOPLIST_FILE = Shikimori/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
