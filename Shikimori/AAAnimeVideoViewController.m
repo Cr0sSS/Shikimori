@@ -17,6 +17,9 @@
 @property (strong, nonatomic) NSMutableArray *videoOptions;
 @property (strong, nonatomic) NSMutableArray *videoResourceURLs;
 @property (strong, nonatomic) AAAnimeVideo *videoURL;
+@property (strong, nonatomic) WKWebView *webView;
+@property (strong, nonatomic) UIView *videoView;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -33,19 +36,34 @@
         self.tableView.rowHeight = 34;
     }
     
-    self.webView.scrollView.scrollEnabled = NO;
-    self.webView.scrollView.bounces = NO;
+    CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height + self.navigationController.navigationBar.frame.origin.y;
+    CGFloat webViewHeight = 320 - navBarHeight;
+    
     self.videoOptions = [NSMutableArray array];
     self.videoResourceURLs = [NSMutableArray array];
     self.sourceURL = [NSString stringWithFormat:@"https://play.shikimori.org/animes/%@/video_online", self.animeID];
     
+    self.videoView = [[UIView alloc] initWithFrame:CGRectMake(0, navBarHeight, self.view.bounds.size.width, webViewHeight)];
+    
+    self.videoView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.view addSubview:self.videoView];
+
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 8, webViewHeight)];
+    [self.videoView addSubview:self.webView];
+    
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:self.webView.frame];
+    self.activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    self.activityIndicator.color = [UIColor colorWithRed:25/255.0 green:181/255.0 blue:254/255.0 alpha:1];
+    
+    [self.webView addSubview:self.activityIndicator];
+    
+    self.webView.scrollView.scrollEnabled = NO;
+    self.webView.scrollView.bounces = NO;
+    self.webView.navigationDelegate = self;
+    
     [self parseVideoEpisode];
     [self parseVideoURL];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Parse Methods
@@ -143,7 +161,9 @@
             [self.videoResourceURLs addObject:self.videoURL];
             self.videoURL.videoResourceURL = [element objectForKey:@"src"];
             
-            NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"https:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
+            CGFloat width = self.webView.frame.size.width ;
+            CGFloat height = self.webView.frame.size.height ;
+            NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"https:%@\" width=\"%f\" height=\"%f\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , width, height];
             [self.webView loadHTMLString:htmlString baseURL:nil];
         }
         
@@ -162,7 +182,9 @@
                 self.videoURL = [[AAAnimeVideo alloc] init];
                 [self.videoResourceURLs addObject:self.videoURL];
                 self.videoURL.videoResourceURL = [element objectForKey:@"src"];
-                NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"https:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
+                CGFloat width = self.webView.frame.size.width ;
+                CGFloat height = self.webView.frame.size.height ;
+                NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"https:%@\" width=\"%f\" height=\"%f\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , width, height];
                 [self.webView loadHTMLString:htmlString baseURL:nil];
             }
         }
@@ -182,7 +204,9 @@
                 [self.videoResourceURLs addObject:self.videoURL];
                 self.videoURL.videoResourceURL = [element objectForKey:@"src"];
                 
-                NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"https:%@\" width=\"%f\" height=\"253\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , self.webView.frame.size.width - 16.0];
+                CGFloat width = self.webView.frame.size.width;
+                CGFloat height = self.webView.frame.size.height;
+                NSString* htmlString = [NSString stringWithFormat:@"<iframe src=\"https:%@\" width=\"%f\" height=\"%f\" frameborder=\"0\"></iframe>", self.videoURL.videoResourceURL , width, height];
                 [self.webView loadHTMLString:htmlString baseURL:nil];
             }
         }
@@ -192,14 +216,20 @@
     });
 }
 
-#pragma mark - UIWebViewDelegate
+#pragma mark - WKNavigationDelegate
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
+- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
     [self.activityIndicator stopAnimating];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+- (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
     [self.activityIndicator stopAnimating];
+}
+
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
+    NSString *javascript = @"var meta = document.createElement('meta');meta.setAttribute('name', 'viewport');meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');document.getElementsByTagName('head')[0].appendChild(meta);";
+    
+    [webView evaluateJavaScript:javascript completionHandler:nil];
 }
 
 #pragma mark - UITableViewDataSource
