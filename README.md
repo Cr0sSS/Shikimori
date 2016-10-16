@@ -32,7 +32,7 @@ Project uses core data preloading , to correctly display the database use the re
 
 • Xcode 6.3 or higher 
 
-• iOS 9 or higher
+• iOS 8.0 or higher
 
 #License
 
