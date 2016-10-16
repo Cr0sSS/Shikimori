@@ -776,6 +776,7 @@
 				DEVELOPMENT_TEAM = 5ZP5L939DW;
 				GCC_PREFIX_HEADER = $SOURCE_ROOT/Shikimori/PrefixHeader.pch;
 				INFOPLIST_FILE = Shikimori/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ArsenAvanesyan.Shikimori;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -791,6 +792,7 @@
 				DEVELOPMENT_TEAM = 5ZP5L939DW;
 				GCC_PREFIX_HEADER = $SOURCE_ROOT/Shikimori/PrefixHeader.pch;
 				INFOPLIST_FILE = Shikimori/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ArsenAvanesyan.Shikimori;
 				PRODUCT_NAME = "$(TARGET_NAME)";
